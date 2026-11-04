@@ -20,7 +20,7 @@ class ParticipationByDay extends ChartWidget
 
     protected ?string $maxHeight = '14rem';
 
-    protected int|string|array $columnSpan = 1;
+    protected int|string|array $columnSpan = 'full';
 
     protected function getType(): string
     {
