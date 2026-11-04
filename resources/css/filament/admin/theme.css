@@ -5,49 +5,62 @@
 @source '../../../../resources/views/filament/**/*';
 
     /*
-     * Admin app-screen layer. Loaded last so it wins over the earlier ornamental rules: flat surfaces with
-     * a 1px line, no gradients, glow, glass or resting shadows, small sentence-case labels, and the brand
-     * orange kept for data, the active nav icon, the tab rule and the one primary action.
-     * Login screens (.fi-simple-layout) keep their own look and are not touched here.
+     * Admin app-screen layer. Loaded last so it wins over Filament's defaults. It carries the e-voting look on
+     * every admin page: the warm ember palette, the cream ground with its ballot-dot grid, a frosted top bar with
+     * an ember rule, ballot-slip cards with an ember top edge, ember primary actions, and the perforated rule under
+     * each page title. Login screens (.fi-simple-layout) keep their own look and are not touched here.
      */
     :root {
-        --admin-ground: #fafaf9;
+        --admin-ground: #fffaf5;
         --admin-surface: #ffffff;
-        --admin-line: #e7e5e4;
-        --admin-row-line: #f0eeec;
+        --admin-line: #fed7aa;
+        --admin-row-line: #ffedd5;
         --admin-ink: #1c1917;
-        --admin-muted: #6b6560;
-        --admin-hover: #f3f1ef;
-        --admin-accent: #c2410c;
-        --admin-accent-strong: #9a3412;
+        --admin-muted: #78716c;
+        --admin-hover: #fff7ed;
+        --admin-accent: #ea580c;
+        --admin-accent-strong: #c2410c;
+        --admin-ember: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #c2410c 100%);
+        --admin-shimmer: linear-gradient(90deg, #ea580c, #facc15, #f97316, #fb923c, #ea580c);
     }
 
     .fi-layout {
         background-color: var(--admin-ground);
-        background-image: none;
-    }
-
-    .admin-page-ornament {
-        display: none;
     }
 
     .fi-topbar {
-        background: var(--admin-surface);
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
-        border-bottom: 1px solid var(--admin-line);
+        background: var(--admin-shimmer) bottom / 100% 2px no-repeat, rgba(255, 255, 255, 0.86);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px -22px rgba(194, 65, 12, 0.5);
     }
 
     .fi-sidebar {
-        background: var(--admin-ground);
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
+        background: linear-gradient(180deg, #fff7ed 0%, var(--admin-ground) 42%);
         border-inline-end: 1px solid var(--admin-line);
         box-shadow: none;
     }
 
     .fi-sidebar-header {
-        border-bottom: 1px solid var(--admin-line);
+        border-bottom: 2px dashed var(--admin-line);
+    }
+
+    /* The ornament under the top bar: the dashed rule and the ember ballot mark, with air above it. */
+    .admin-page-ornament {
+        padding-top: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .admin-page-ornament-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 0.5rem;
+        color: #fff;
+        background: var(--admin-ember);
+        box-shadow: 0 8px 16px -10px rgba(194, 65, 12, 0.8);
     }
 
     .fi-sidebar-nav {
@@ -82,10 +95,10 @@
     }
 
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
-        color: var(--admin-ink);
+        color: #9a3412;
         font-weight: 600;
-        background: var(--admin-hover);
-        box-shadow: none;
+        background: var(--admin-surface);
+        box-shadow: 0 1px 2px rgba(194, 65, 12, 0.12), inset 0 0 0 1px var(--admin-line);
     }
 
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn::before {
@@ -112,8 +125,8 @@
         margin: 0.75rem;
         padding: 0.75rem;
         border: 1px solid var(--admin-line);
-        border-radius: 0.5rem;
-        background: var(--admin-surface);
+        border-radius: 0.75rem;
+        background: linear-gradient(160deg, #fff7ed 0%, var(--admin-surface) 70%);
     }
 
     .fi-sidebar:not(.fi-sidebar-open) .admin-sidebar-status {
@@ -168,29 +181,39 @@
         background: var(--admin-accent);
     }
 
-    /* Surfaces: a 1px line instead of a shadow, one radius. */
+    /* Surfaces: a ballot slip with an ember top edge, a warm hairline and a soft lift. */
     .fi-section,
-    .fi-ta-ctn,
     .fi-wi-stats-overview-stat,
     .admin-stat,
     .admin-leader,
     .admin-status,
     .voter-trend {
         border: 1px solid var(--admin-line);
-        border-radius: 0.75rem;
+        border-radius: 1rem;
+        background: var(--admin-shimmer) top / 100% 4px no-repeat, var(--admin-surface);
+        box-shadow: 0 1px 2px rgba(28, 8, 2, 0.04), 0 18px 36px -28px rgba(194, 65, 12, 0.5);
+    }
+
+    .fi-ta-ctn {
+        border: 1px solid var(--admin-line);
+        border-radius: 1rem;
         background: var(--admin-surface);
-        background-image: none;
-        box-shadow: none;
+        box-shadow: 0 1px 2px rgba(28, 8, 2, 0.04);
     }
 
     .fi-section-header {
         border-bottom: 0;
     }
 
+    /* The page title keeps the ornament strip above it as the only dashed rule, so the title block has no rule of its own. */
+    .fi-header {
+        border-bottom: 0;
+    }
+
     .fi-header-heading {
         font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
+        font-weight: 800;
+        letter-spacing: -0.02em;
         color: var(--admin-ink);
     }
 
@@ -238,6 +261,10 @@
         border-top: 1px solid var(--admin-line);
     }
 
+    .fi-ta-ctn thead {
+        background-color: #fffaf5;
+    }
+
     .fi-ta-header-cell {
         background: transparent;
         font-size: 0.75rem;
@@ -273,31 +300,30 @@
         background-image: none;
     }
 
-    /* Controls: one flat primary action, plain pagination. */
+    /* Controls: ember primary actions with a warm glow, and the active page number in the same ember. */
     .fi-btn.fi-color-primary:not(.fi-outlined) {
-        background-image: none;
+        background-image: var(--admin-ember);
         background-color: var(--admin-accent);
         color: #fff;
-        box-shadow: none;
+        box-shadow: 0 10px 20px -12px rgba(194, 65, 12, 0.85);
     }
 
     .fi-btn.fi-color-primary:not(.fi-outlined):hover {
-        filter: none;
         background-color: var(--admin-accent-strong);
-        box-shadow: none;
+        box-shadow: 0 12px 24px -12px rgba(194, 65, 12, 0.95);
     }
 
     .fi-dropdown-panel {
-        box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 18px 40px -20px rgba(194, 65, 12, 0.35);
     }
 
     .fi-pagination-item.fi-active .fi-pagination-item-btn {
-        background-image: none;
+        background-image: var(--admin-ember);
         background-color: var(--admin-accent);
         color: #fff;
     }
 
-    /* List tabs: a neutral row with a 2px orange rule under the selected tab. */
+    /* List tabs: a neutral row with a 2px ember rule under the selected tab. */
     .fi-tabs {
         display: flex;
         max-width: 100%;
@@ -335,11 +361,10 @@
     }
 
     .fi-tabs-item.fi-active {
-        color: var(--admin-ink);
+        color: #9a3412;
         font-weight: 600;
-        background: transparent;
-        background-image: none;
-        box-shadow: inset 0 -2px 0 var(--admin-accent);
+        background: linear-gradient(90deg, #f97316, #c2410c) bottom / 100% 2px no-repeat;
+        box-shadow: none;
     }
 
     .fi-tabs-item.fi-active .fi-badge {
@@ -472,7 +497,7 @@
         height: 3px;
         margin-top: 0.5rem;
         border-radius: 2px;
-        background: var(--admin-accent);
+        background: var(--admin-ember);
     }
 
     .fi-wi-stats-overview-stat-description {
