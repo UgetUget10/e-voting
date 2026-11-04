@@ -27,6 +27,7 @@
         @foreach ($cards as $card)
             <div class="card">
                 <h2>{{ $card['name'] }}</h2>
+                <dl><dt>Username</dt><dd>{{ $card['username'] }}</dd></dl>
                 @if ($card['email'] !== null)
                     <dl><dt>Email</dt><dd>{{ $card['email'] }}</dd></dl>
                 @endif

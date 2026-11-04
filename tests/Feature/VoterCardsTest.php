@@ -50,11 +50,12 @@ class VoterCardsTest extends TestCase
     {
         $this->actingAs($this->superAdmin())
             ->withSession([VoterCardController::SESSION_KEY => [
-                ['name' => 'Siti Aminah', 'email' => 'siti@example.test', 'password' => 'Abc123Xyz9'],
+                ['name' => 'Siti Aminah', 'username' => 'siti.aminah', 'email' => 'siti@example.test', 'password' => 'Abc123Xyz9'],
             ]])
             ->get(route('voter-cards.print'))
             ->assertOk()
             ->assertSee('Siti Aminah')
+            ->assertSee('siti.aminah')
             ->assertSee('Abc123Xyz9');
 
         $this->get(route('voter-cards.print'))->assertNotFound();

@@ -26,7 +26,7 @@ class UserActions
             ->color('gray')
             ->visible(fn (User $record): bool => ! $record->is(auth()->user()) && UsersTable::canSeeEmails())
             ->modalHeading('Ganti email pemilih')
-            ->modalDescription('Pemilih masuk memakai email baru mulai sekarang. Masukkan password Anda sebagai konfirmasi.')
+            ->modalDescription('Email baru dipakai untuk pengingat pemilih dan untuk admin masuk. Pemilih masuk memakai username, jadi tidak terpengaruh. Masukkan password Anda sebagai konfirmasi.')
             ->schema([
                 TextInput::make('email')
                     ->label('Email baru')

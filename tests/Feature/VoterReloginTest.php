@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Voter\Auth\VoterLogin;
 use App\Models\User;
-use Filament\Auth\Pages\Login;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +24,7 @@ class VoterReloginTest extends TestCase
     public function test_voter_can_sign_in_again_after_signing_out(): void
     {
         $voter = User::factory()->create([
-            'email' => 'tes3@test.com',
+            'username' => 'tes3',
             'password' => Hash::make('password'),
         ]);
 
@@ -47,21 +47,21 @@ class VoterReloginTest extends TestCase
 
     public function test_voter_lands_on_the_status_page_after_signing_in(): void
     {
-        $voter = User::factory()->create(['email' => 'tes3@test.com', 'password' => Hash::make('password')]);
+        $voter = User::factory()->create(['username' => 'tes3', 'password' => Hash::make('password')]);
 
-        Livewire::test(Login::class)
-            ->fillForm(['email' => $voter->email, 'password' => 'password'])
+        Livewire::test(VoterLogin::class)
+            ->fillForm(['username' => $voter->username, 'password' => 'password'])
             ->call('authenticate')
             ->assertRedirect('/pemilih/status-memilih');
     }
 
     public function test_voter_lands_on_the_status_page_even_after_opening_another_page_first(): void
     {
-        $voter = User::factory()->create(['email' => 'tes3@test.com', 'password' => Hash::make('password')]);
+        $voter = User::factory()->create(['username' => 'tes3', 'password' => Hash::make('password')]);
         session()->put('url.intended', '/pemilih/hasil');
 
-        Livewire::test(Login::class)
-            ->fillForm(['email' => $voter->email, 'password' => 'password'])
+        Livewire::test(VoterLogin::class)
+            ->fillForm(['username' => $voter->username, 'password' => 'password'])
             ->call('authenticate')
             ->assertRedirect('/pemilih/status-memilih');
     }
@@ -70,16 +70,16 @@ class VoterReloginTest extends TestCase
     {
         $admin = User::factory()->create(['email' => 'admin@test.com', 'password' => Hash::make('password'), 'is_admin' => true]);
 
-        Livewire::test(Login::class)
-            ->fillForm(['email' => $admin->email, 'password' => 'password'])
+        Livewire::test(VoterLogin::class)
+            ->fillForm(['username' => $admin->email, 'password' => 'password'])
             ->call('authenticate')
             ->assertRedirect('/pemilih/hasil');
     }
 
     private function signInThroughLoginPage(User $voter): void
     {
-        Livewire::test(Login::class)
-            ->fillForm(['email' => $voter->email, 'password' => 'password'])
+        Livewire::test(VoterLogin::class)
+            ->fillForm(['username' => $voter->username, 'password' => 'password'])
             ->call('authenticate')
             ->assertHasNoFormErrors();
     }

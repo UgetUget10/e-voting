@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Voter\Auth\VoterLogin;
 use App\Filament\Voter\Pages\CheckReceipt;
 use App\Filament\Voter\Pages\Results;
 use App\Filament\Voter\Pages\Vote;
@@ -31,7 +32,7 @@ class VoterPanelProvider extends PanelProvider
             ->id('pemilih')
             ->path('pemilih')
             ->homeUrl(fn () => CheckReceipt::getUrl(panel: 'pemilih'))
-            ->login()
+            ->login(VoterLogin::class)
             ->brandName('E-Voting Matsanewa')
             ->brandLogo(fn () => view('filament.voter.partials.brand-logo'))
             ->topNavigation()

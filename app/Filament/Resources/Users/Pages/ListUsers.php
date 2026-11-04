@@ -104,7 +104,7 @@ class ListUsers extends ListRecords
                 ->icon(Heroicon::OutlinedArrowUpTray)
                 ->color('gray')
                 ->modalHeading('Impor pemilih dari CSV')
-                ->modalDescription('Baris pertama harus berisi kolom "nama" dan "email", dan boleh ditambah "password" (minimal '.UserCsvImport::MIN_PASSWORD_LENGTH.' karakter). Pemilih tanpa password diberi password acak yang bisa diunduh setelah impor. Maksimal '.UserCsvImport::MAX_ROWS.' baris, dan email yang sudah ada dilewati.')
+                ->modalDescription('Baris pertama harus berisi kolom "nama" dan "email", dan boleh ditambah "username" dan "password" (minimal '.UserCsvImport::MIN_PASSWORD_LENGTH.' karakter). Pemilih tanpa username diberi username dari bagian depan emailnya. Pemilih tanpa password diberi password acak yang bisa diunduh setelah impor. Maksimal '.UserCsvImport::MAX_ROWS.' baris, dan email yang sudah ada dilewati.')
                 ->schema([
                     FileUpload::make('file')
                         ->label('File CSV')
@@ -164,7 +164,7 @@ class ListUsers extends ListRecords
                 ->label('Unduh template CSV')
                 ->icon(Heroicon::OutlinedTableCells)
                 ->color('gray')
-                ->action(fn (): StreamedResponse => CsvTemplate::download('template-pemilih.csv', ['nama', 'email', 'password'])),
+                ->action(fn (): StreamedResponse => CsvTemplate::download('template-pemilih.csv', ['nama', 'email', 'username', 'password'])),
             Action::make('export')
                 ->label('Ekspor pemilih')
                 ->icon(Heroicon::OutlinedArrowDownTray)
@@ -175,18 +175,19 @@ class ListUsers extends ListRecords
     }
 
     /**
-     * @param  list<array{name: string, email: string, password: string}>  $accounts
+     * @param  list<array{name: string, email: string, username: string, password: string}>  $accounts
      */
     private function downloadGeneratedPasswords(array $accounts): StreamedResponse
     {
         return response()->streamDownload(function () use ($accounts): void {
             $handle = fopen('php://output', 'w');
 
-            fputcsv($handle, ['Nama', 'Email', 'Password awal']);
+            fputcsv($handle, ['Nama', 'Username', 'Email', 'Password awal']);
 
             foreach ($accounts as $account) {
                 fputcsv($handle, [
                     CsvCell::safe($account['name']),
+                    CsvCell::safe($account['username']),
                     CsvCell::safe($account['email']),
                     CsvCell::safe($account['password']),
                 ]);
@@ -204,8 +205,8 @@ class ListUsers extends ListRecords
             $handle = fopen('php://output', 'w');
 
             fputcsv($handle, $includeEmails
-                ? ['Nama', 'Email', 'Peran', 'Sudah memilih', 'Admin panel']
-                : ['Nama', 'Peran', 'Sudah memilih', 'Admin panel']);
+                ? ['Nama', 'Username', 'Email', 'Peran', 'Sudah memilih', 'Admin panel']
+                : ['Nama', 'Username', 'Peran', 'Sudah memilih', 'Admin panel']);
 
             User::query()
                 ->withExists('ballot')
@@ -213,7 +214,7 @@ class ListUsers extends ListRecords
                 ->orderBy('name')
                 ->chunk(200, function ($users) use ($handle, $includeEmails) {
                     foreach ($users as $user) {
-                        $row = [CsvCell::safe($user->name)];
+                        $row = [CsvCell::safe($user->name), CsvCell::safe($user->username ?? '')];
 
                         if ($includeEmails) {
                             $row[] = CsvCell::safe($user->email);

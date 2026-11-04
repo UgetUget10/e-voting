@@ -18,13 +18,15 @@ class UserCsvImport
 
     /**
      * Import voters from a CSV file with a header row holding "nama" and "email" columns and, optionally,
-     * "password". Rows without a password get a random one, returned in "generated" so the admin can hand
-     * it out once. Emails already in the database (any letter case) or repeated in the file are skipped, and
-     * rows with a missing or invalid value are counted as invalid. Voters are never created as admins.
-     * Everything is imported in one transaction. With $dryRun the rows are checked and counted, then rolled back,
-     * so nothing is saved and no passwords are returned.
+     * "username" and "password". A new voter without a username gets one built from the front of the email, and a
+     * username already taken by someone else makes the row invalid. Rows without a password get a random one,
+     * returned in "generated" together with the username so the admin can hand them out once. Emails already in the
+     * database (any letter case) or repeated in the file are skipped, and rows with a missing or invalid value are
+     * counted as invalid. Existing voters keep their username. Voters are never created as admins. Everything is
+     * imported in one transaction. With $dryRun the rows are checked and counted, then rolled back, so nothing is
+     * saved and no passwords are returned.
      *
-     * @return array{created: int, updated: int, skipped: int, invalid: int, truncated: bool, generated: list<array{name: string, email: string, password: string}>}
+     * @return array{created: int, updated: int, skipped: int, invalid: int, truncated: bool, generated: list<array{name: string, email: string, username: string, password: string}>}
      */
     public function import(string $path, bool $updateExisting = false, bool $dryRun = false): array
     {
@@ -44,6 +46,7 @@ class UserCsvImport
 
             $nameColumn = $this->columnIndex($header, ['nama', 'name']);
             $emailColumn = $this->columnIndex($header, ['email']);
+            $usernameColumn = $this->columnIndex($header, ['username']);
             $passwordColumn = $this->columnIndex($header, ['password']);
 
             if ($nameColumn === null || $emailColumn === null) {
@@ -54,7 +57,7 @@ class UserCsvImport
                 DB::beginTransaction();
 
                 try {
-                    $result = $this->importRows($handle, $delimiter, $nameColumn, $emailColumn, $passwordColumn, $updateExisting);
+                    $result = $this->importRows($handle, $delimiter, $nameColumn, $emailColumn, $usernameColumn, $passwordColumn, $updateExisting);
                 } finally {
                     DB::rollBack();
                 }
@@ -62,7 +65,7 @@ class UserCsvImport
                 return [...$result, 'generated' => []];
             }
 
-            return DB::transaction(fn (): array => $this->importRows($handle, $delimiter, $nameColumn, $emailColumn, $passwordColumn, $updateExisting));
+            return DB::transaction(fn (): array => $this->importRows($handle, $delimiter, $nameColumn, $emailColumn, $usernameColumn, $passwordColumn, $updateExisting));
         } finally {
             fclose($handle);
         }
@@ -70,12 +73,15 @@ class UserCsvImport
 
     /**
      * @param  resource  $handle
-     * @return array{created: int, updated: int, skipped: int, invalid: int, truncated: bool, generated: list<array{name: string, email: string, password: string}>}
+     * @return array{created: int, updated: int, skipped: int, invalid: int, truncated: bool, generated: list<array{name: string, email: string, username: string, password: string}>}
      */
-    private function importRows($handle, string $delimiter, int $nameColumn, int $emailColumn, ?int $passwordColumn, bool $updateExisting): array
+    private function importRows($handle, string $delimiter, int $nameColumn, int $emailColumn, ?int $usernameColumn, ?int $passwordColumn, bool $updateExisting): array
     {
         $known = User::query()->get(['id', 'email'])
             ->mapWithKeys(fn (User $user): array => [mb_strtolower($user->email) => $user->id])
+            ->all();
+        $knownUsernames = User::query()->whereNotNull('username')->get(['id', 'username'])
+            ->mapWithKeys(fn (User $user): array => [mb_strtolower($user->username) => $user->id])
             ->all();
         $created = $updated = $skipped = $invalid = $rows = 0;
         $truncated = false;
@@ -93,6 +99,7 @@ class UserCsvImport
 
             $name = trim((string) ($row[$nameColumn] ?? ''));
             $email = mb_strtolower(trim((string) ($row[$emailColumn] ?? '')));
+            $username = $usernameColumn === null ? '' : mb_strtolower(trim((string) ($row[$usernameColumn] ?? '')));
             $password = $passwordColumn === null ? '' : trim((string) ($row[$passwordColumn] ?? ''));
 
             if ($name === '' || mb_strlen($name) > 255 || filter_var($email, FILTER_VALIDATE_EMAIL) === false || mb_strlen($email) > 255) {
@@ -102,6 +109,12 @@ class UserCsvImport
             }
 
             if ($password !== '' && mb_strlen($password) < self::MIN_PASSWORD_LENGTH) {
+                $invalid++;
+
+                continue;
+            }
+
+            if ($username !== '' && preg_match(User::USERNAME_PATTERN, $username) !== 1) {
                 $invalid++;
 
                 continue;
@@ -129,19 +142,29 @@ class UserCsvImport
                 continue;
             }
 
+            if ($username !== '' && isset($knownUsernames[$username])) {
+                $invalid++;
+
+                continue;
+            }
+
+            $username = $username !== '' ? $username : User::usernameFromEmail($email, $knownUsernames);
+
             if ($password === '') {
                 $password = Str::password(self::GENERATED_PASSWORD_LENGTH, symbols: false);
-                $generated[] = ['name' => $name, 'email' => $email, 'password' => $password];
+                $generated[] = ['name' => $name, 'email' => $email, 'username' => $username, 'password' => $password];
             }
 
             $user = User::create([
                 'name' => $name,
                 'email' => $email,
+                'username' => $username,
                 'password' => Hash::make($password),
                 'is_admin' => false,
             ]);
 
             $known[$email] = $user->id;
+            $knownUsernames[$username] = $user->id;
             $created++;
         }
 

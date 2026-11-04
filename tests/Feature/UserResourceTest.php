@@ -86,12 +86,81 @@ class UserResourceTest extends TestCase
                 'name' => 'Budi Panitia',
                 'email' => 'budi@example.test',
                 'password' => 'rahasia-banget',
+                'is_admin' => true,
                 'roles' => [$panitia->getKey()],
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
         $this->assertTrue(User::where('email', 'budi@example.test')->firstOrFail()->hasRole('panitia'));
+    }
+
+    public function test_voter_needs_a_username_but_admin_does_not(): void
+    {
+        Livewire::actingAs($this->superAdmin())
+            ->test(CreateUser::class)
+            ->fillForm([
+                'name' => 'Siti Pemilih',
+                'email' => 'siti@example.test',
+                'password' => 'rahasia-banget',
+                'is_admin' => false,
+            ])
+            ->call('create')
+            ->assertHasFormErrors(['username' => 'required']);
+
+        Livewire::actingAs($this->superAdmin())
+            ->test(CreateUser::class)
+            ->fillForm([
+                'name' => 'Ani Admin',
+                'email' => 'ani@example.test',
+                'password' => 'rahasia-banget',
+                'is_admin' => true,
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+    }
+
+    public function test_voter_username_is_lowercased_and_must_be_unique(): void
+    {
+        User::factory()->create(['username' => 'siswa01']);
+
+        Livewire::actingAs($this->superAdmin())
+            ->test(CreateUser::class)
+            ->fillForm([
+                'name' => 'Siti Pemilih',
+                'email' => 'siti@example.test',
+                'password' => 'rahasia-banget',
+                'username' => 'SISWA01',
+            ])
+            ->call('create')
+            ->assertHasFormErrors(['username' => 'unique']);
+
+        Livewire::actingAs($this->superAdmin())
+            ->test(CreateUser::class)
+            ->fillForm([
+                'name' => 'Siti Pemilih',
+                'email' => 'siti@example.test',
+                'password' => 'rahasia-banget',
+                'username' => 'Siti.Pemilih',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $this->assertSame('siti.pemilih', User::where('email', 'siti@example.test')->firstOrFail()->username);
+    }
+
+    public function test_voter_username_rejects_characters_outside_the_pattern(): void
+    {
+        Livewire::actingAs($this->superAdmin())
+            ->test(CreateUser::class)
+            ->fillForm([
+                'name' => 'Siti Pemilih',
+                'email' => 'siti@example.test',
+                'password' => 'rahasia-banget',
+                'username' => 'siti pemilih!',
+            ])
+            ->call('create')
+            ->assertHasFormErrors(['username']);
     }
 
     public function test_admin_cannot_revoke_their_own_admin_access(): void

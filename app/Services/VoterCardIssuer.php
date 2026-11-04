@@ -29,6 +29,7 @@ class VoterCardIssuer
 
             return [
                 'name' => $user->name,
+                'username' => $user->username,
                 'email' => auth()->user()?->isSuperAdmin() ? $user->email : null,
                 'password' => $password,
             ];

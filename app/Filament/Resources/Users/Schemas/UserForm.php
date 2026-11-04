@@ -35,10 +35,19 @@ class UserForm
                             ->maxLength(255),
                         TextInput::make('email')
                             ->label('Email')
+                            ->helperText('Dipakai admin untuk masuk. Pemilih masuk dengan username.')
                             ->email()
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
+                        TextInput::make('username')
+                            ->label('Username')
+                            ->helperText('Dipakai pemilih untuk masuk. 3 sampai 30 huruf, angka, titik, garis bawah, atau strip. Kosongkan untuk admin.')
+                            ->required(fn (Get $get): bool => ! $get('is_admin'))
+                            ->regex(User::USERNAME_PATTERN)
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(30)
+                            ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? Str::lower(trim($state)) : null),
                         TextInput::make('password')
                             ->label('Password')
                             ->password()
@@ -62,6 +71,7 @@ class UserForm
                     ->schema([
                         Toggle::make('is_admin')
                             ->label('Admin panel')
+                            ->live()
                             ->helperText('Akun sendiri dan pemilih yang sudah memilih tidak bisa diubah aksesnya.')
                             ->disabled(fn (?User $record): bool => ($record?->is(auth()->user()) ?? false) || ($record?->ballot()->exists() ?? false)),
                         Select::make('roles')

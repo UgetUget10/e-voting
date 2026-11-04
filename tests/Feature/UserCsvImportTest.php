@@ -164,13 +164,75 @@ class UserCsvImportTest extends TestCase
         return $path;
     }
 
-    private function importCsv(string $content): array
+    public function test_new_voters_get_a_username_built_from_their_email(): void
+    {
+        $this->importCsv("nama,email,password\nAhmad Fauzi,ahmad.fauzi@sekolah.test,rahasia-123\nSiti,Siti+kelas7@sekolah.test,rahasia-123\n");
+
+        $this->assertSame('ahmad.fauzi', User::where('email', 'ahmad.fauzi@sekolah.test')->value('username'));
+        $this->assertSame('siti.kelas7', User::where('email', 'siti+kelas7@sekolah.test')->value('username'));
+    }
+
+    public function test_a_derived_username_gets_a_number_when_it_is_already_taken(): void
+    {
+        User::factory()->create(['username' => 'ahmad']);
+
+        $this->importCsv("nama,email,password\nAhmad,ahmad@sekolah.test,rahasia-123\n");
+
+        $this->assertSame('ahmad2', User::where('email', 'ahmad@sekolah.test')->value('username'));
+    }
+
+    public function test_a_username_from_the_file_is_used_in_lowercase(): void
+    {
+        $result = $this->importCsv("nama,username,email,password\nSiti,Siti.Kelas7,siti@sekolah.test,rahasia-123\n");
+
+        $this->assertSame(1, $result['created']);
+        $this->assertSame('siti.kelas7', User::where('email', 'siti@sekolah.test')->value('username'));
+    }
+
+    public function test_a_username_already_used_by_someone_else_makes_the_row_invalid(): void
+    {
+        User::factory()->create(['username' => 'siswa01']);
+
+        $result = $this->importCsv("nama,username,email,password\nBudi,SISWA01,budi@sekolah.test,rahasia-123\n");
+
+        $this->assertSame(0, $result['created']);
+        $this->assertSame(1, $result['invalid']);
+        $this->assertFalse(User::where('email', 'budi@sekolah.test')->exists());
+    }
+
+    public function test_a_username_outside_the_allowed_pattern_makes_the_row_invalid(): void
+    {
+        $result = $this->importCsv("nama,username,email,password\nBudi,budi santoso!,budi@sekolah.test,rahasia-123\nCici,ab,cici@sekolah.test,rahasia-123\n");
+
+        $this->assertSame(0, $result['created']);
+        $this->assertSame(2, $result['invalid']);
+    }
+
+    public function test_generated_passwords_come_with_the_username(): void
+    {
+        $result = $this->importCsv("nama,email\nBunga,bunga@example.com\n");
+
+        $this->assertSame('bunga', $result['generated'][0]['username']);
+    }
+
+    public function test_existing_voters_keep_their_username_when_updated_from_a_file(): void
+    {
+        User::factory()->create(['name' => 'Ani', 'email' => 'ani@sekolah.test', 'username' => 'ani']);
+
+        $this->importCsv("nama,username,email,password\nAni Baru,ani.baru,ani@sekolah.test,rahasia-123\n", updateExisting: true);
+
+        $voter = User::where('email', 'ani@sekolah.test')->firstOrFail();
+        $this->assertSame('Ani Baru', $voter->name);
+        $this->assertSame('ani', $voter->username);
+    }
+
+    private function importCsv(string $content, bool $updateExisting = false): array
     {
         $path = tempnam(sys_get_temp_dir(), 'pemilih');
         file_put_contents($path, $content);
 
         try {
-            return app(UserCsvImport::class)->import($path);
+            return app(UserCsvImport::class)->import($path, $updateExisting);
         } finally {
             unlink($path);
         }

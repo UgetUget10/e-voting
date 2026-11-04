@@ -15,15 +15,51 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use LogicException;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'is_admin', 'suspended_at', 'last_login_at'])]
+#[Fillable(['name', 'email', 'username', 'password', 'is_admin', 'suspended_at', 'last_login_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser, HasEmailAuthentication
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, HasUuids, InteractsWithEmailAuthentication, Notifiable;
+
+    /**
+     * Voters type this to sign in: 3 to 30 letters, digits, dots, underscores or dashes, starting with a letter or digit.
+     */
+    public const USERNAME_PATTERN = '/^[a-z0-9][a-z0-9._-]{2,29}$/i';
+
+    /**
+     * A username for a voter imported without one: the part of the email before the @, reduced to the allowed
+     * characters. A number is added when that name is taken, so the result is always free.
+     *
+     * @param  array<string, mixed>  $taken  Usernames already in use, as keys.
+     */
+    public static function usernameFromEmail(string $email, array $taken): string
+    {
+        $base = Str::of(Str::before($email, '@'))
+            ->lower()
+            ->replaceMatches('/[^a-z0-9._-]+/', '.')
+            ->trim('._-')
+            ->limit(26, '')
+            ->toString();
+
+        if (strlen($base) < 3) {
+            $base = 'pemilih'.$base;
+        }
+
+        $username = $base;
+        $suffix = 2;
+
+        while (isset($taken[$username])) {
+            $username = $base.$suffix;
+            $suffix++;
+        }
+
+        return $username;
+    }
 
     /**
      * Deleting a voter would cascade to their ballot, so a voter who has voted cannot be removed.

@@ -144,6 +144,12 @@ class UsersTable
                     ->view('filament.users.name-cell')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('username')
+                    ->label('Username')
+                    ->color('gray')
+                    ->copyable()
+                    ->copyMessage('Username disalin.')
+                    ->searchable(),
                 ...self::emailColumns(),
                 ViewColumn::make('roles')
                     ->label('Peran')

@@ -93,7 +93,7 @@ class SimulasiPemilihan extends Command
             ['Dibuka', $election->opens_at->timezone('Asia/Jakarta')->translatedFormat('j M Y, H:i').' WIB'],
             ['Ditutup', $election->closes_at->timezone('Asia/Jakarta')->translatedFormat('j M Y, H:i').' WIB'],
             ['Login admin', 'admin@simulasi.test / password'],
-            ['Login pemilih (contoh)', 'pemilih1@simulasi.test / password'],
+            ['Login pemilih (contoh)', 'pemilih1 / password'],
         ]);
 
         return self::SUCCESS;

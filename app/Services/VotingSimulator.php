@@ -391,6 +391,7 @@ class VotingSimulator
                     'id' => (string) Str::uuid7(),
                     'name' => $faker->name(),
                     'email' => 'pemilih'.$number.'@simulasi.test',
+                    'username' => 'pemilih'.$number,
                     'password' => $password,
                     'is_admin' => false,
                     'created_at' => $registeredAt,

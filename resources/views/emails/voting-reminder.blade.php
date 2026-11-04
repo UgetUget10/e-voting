@@ -3,6 +3,8 @@
 
 Anda belum mengirim suara untuk **{{ $election?->name ?? 'pemilihan' }}**.
 
+Masuk dengan username Anda: **{{ $voter->username }}**.
+
 @if ($election?->closes_at)
 Voting ditutup pada {{ $election->closes_at->timezone('Asia/Jakarta')->locale('id')->translatedFormat('j F Y, H:i') }} WIB.
 @endif

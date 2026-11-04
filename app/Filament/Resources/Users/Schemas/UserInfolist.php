@@ -30,6 +30,10 @@ class UserInfolist
                                     ->label('Nama')
                                     ->weight('semibold')
                                     ->columnSpanFull(),
+                                TextEntry::make('username')
+                                    ->label('Username')
+                                    ->copyable()
+                                    ->placeholder('—'),
                                 TextEntry::make('email')
                                     ->label('Email')
                                     ->copyable()
