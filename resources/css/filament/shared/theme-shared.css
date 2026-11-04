@@ -1,0 +1,3291 @@
+    /* Page background: warm glow, a faint ballot-dot grid, and a frosted top bar. */
+    .fi-topbar {
+        background: rgba(255, 255, 255, 0.82);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+    }
+
+    /* Brand: small ballot-box mark beside the application name. */
+    .voter-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+    }
+
+    .voter-brand-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.6rem;
+        color: #fff;
+        background: #c2410c;
+    }
+
+    .voter-brand-mark svg {
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    .voter-brand-text {
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: #111827;
+        white-space: nowrap;
+    }
+
+    .voter-brand-text strong {
+        font-weight: 800;
+        color: #ea580c;
+    }
+
+    /* Page background: a warm glow, a faint dot grid, sparse sparkles, and one large ballot box in the corner. */
+    .fi-layout {
+        background-color: #fafafa;
+        background-image:
+            radial-gradient(circle at 0% 0%, rgba(251, 146, 60, 0.16) 0%, transparent 36%),
+            radial-gradient(circle at 100% 35%, rgba(249, 115, 22, 0.1) 0%, transparent 32%),
+            radial-gradient(rgba(234, 88, 12, 0.08) 1px, transparent 1px),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cpath transform='translate(60 60) scale(1.1666666666666667)' fill='%23f97316' fill-opacity='0.2' d='M0 -12C1 -4 4 -1 12 0C4 1 1 4 0 12C-1 4 -4 1 -12 0C-4 -1 -1 -4 0 -12Z'/%3E%3Cpath transform='translate(250 170) scale(0.8333333333333334)' fill='%23f97316' fill-opacity='0.2' d='M0 -12C1 -4 4 -1 12 0C4 1 1 4 0 12C-1 4 -4 1 -12 0C-4 -1 -1 -4 0 -12Z'/%3E%3Cpath transform='translate(140 300) scale(1.0)' fill='%23f97316' fill-opacity='0.2' d='M0 -12C1 -4 4 -1 12 0C4 1 1 4 0 12C-1 4 -4 1 -12 0C-4 -1 -1 -4 0 -12Z'/%3E%3Cpath transform='translate(320 40) scale(0.5833333333333334)' fill='%23f97316' fill-opacity='0.2' d='M0 -12C1 -4 4 -1 12 0C4 1 1 4 0 12C-1 4 -4 1 -12 0C-4 -1 -1 -4 0 -12Z'/%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560' viewBox='0 0 560 560'%3E%3Cg fill='none' stroke='%23ea580c' stroke-opacity='0.12' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='110' y='270' width='340' height='210' rx='40'/%3E%3Cpath d='M160 330h240'/%3E%3Crect x='190' y='150' width='80' height='110' rx='14' transform='rotate(-8 230 205)'/%3E%3Cpath d='M214 214l12 12 24-28' transform='rotate(-8 230 205)'/%3E%3C/g%3E%3C/svg%3E");
+        background-size: auto, auto, 24px 24px, 360px 360px, 560px 560px;
+        background-repeat: no-repeat, no-repeat, repeat, repeat, no-repeat;
+        background-position: 0 0, 0 0, 0 0, 0 0, right -160px bottom -150px;
+    }
+
+    /* Decorative only. Hidden on phones so it never sits on top of the progress row. */
+    .voter-ornament {
+        display: none;
+        position: absolute;
+        right: 1.5rem;
+        bottom: -0.5rem;
+        width: 9rem;
+        height: 9rem;
+        opacity: 0.9;
+        pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+        .voter-ornament {
+            display: block;
+        }
+    }
+
+    /* Login stage: a deep ember gradient with a drifting pattern of ballot checkboxes and a breathing glow. */
+    .fi-simple-layout {
+        position: relative;
+        isolation: isolate;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow: hidden;
+        background:
+            radial-gradient(ellipse at center, transparent 45%, rgba(43, 12, 3, 0.5) 100%),
+            radial-gradient(circle at 12% 8%, rgba(251, 191, 36, 0.3) 0%, transparent 34%),
+            radial-gradient(circle at 92% 96%, rgba(254, 215, 170, 0.2) 0%, transparent 38%),
+            linear-gradient(160deg, #431407 0%, #9a3412 46%, #ea580c 100%);
+    }
+
+    .fi-simple-layout::before {
+        content: '';
+        position: absolute;
+        inset: -160px;
+        z-index: -1;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160' fill='none' stroke='%23fff'%3E%3Crect x='16' y='16' width='30' height='30' rx='8' stroke-opacity='.16' stroke-width='3'/%3E%3Cpath d='M23 32l6 6 11-12' stroke-opacity='.26' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='98' y='24' width='22' height='22' rx='6' stroke-opacity='.12' stroke-width='2.5' transform='rotate(12 109 35)'/%3E%3Cpath d='M112 96l3 8 8 3-8 3-3 8-3-8-8-3 8-3z' fill='%23fff' fill-opacity='.2' stroke='none'/%3E%3C/svg%3E");
+        background-size: 240px 240px;
+        opacity: 0.4;
+        pointer-events: none;
+        animation: voter-login-drift 30s linear infinite;
+    }
+
+    .fi-simple-layout::after {
+        content: '';
+        position: absolute;
+        top: -18rem;
+        left: 50%;
+        z-index: -1;
+        width: 50rem;
+        height: 50rem;
+        background: radial-gradient(circle, rgba(253, 186, 116, 0.3) 0%, transparent 62%);
+        pointer-events: none;
+        animation: voter-login-glow 9s ease-in-out infinite;
+    }
+
+    /* Keep a 16px gutter on phones so the card never touches the screen edge. */
+    .fi-simple-main-ctn {
+        padding-inline: 1rem;
+    }
+
+    /* Card: rounded ballot sheet with a shimmering top rule. Tighter vertical rhythm than Filament's default so it sits shorter. */
+    .fi-simple-page-content {
+        row-gap: 1rem;
+    }
+
+    .fi-simple-main {
+        position: relative;
+        padding-block: 2rem;
+        background: linear-gradient(180deg, #fffaf5 0%, #ffffff 26%);
+        overflow: hidden;
+        border-radius: 1.75rem;
+        box-shadow: 0 40px 80px -30px rgba(28, 8, 2, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.18);
+        animation: voter-login-enter 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .fi-simple-main::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #ea580c, #facc15, #f97316, #fb923c, #ea580c);
+        background-size: 200% 100%;
+        animation: voter-login-shimmer 4s linear infinite;
+    }
+
+    .voter-login-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 0;
+        padding-bottom: 1.25rem;
+        border-bottom: 2px dashed #fed7aa;
+        text-align: center;
+    }
+
+    /* Intro items rise in one after another. */
+    .voter-login-intro > * {
+        animation: voter-login-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .voter-login-intro > :nth-child(2) {
+        animation-delay: 80ms;
+    }
+
+    .voter-login-intro > :nth-child(3) {
+        animation-delay: 140ms;
+    }
+
+    .voter-login-intro > :nth-child(4) {
+        animation-delay: 200ms;
+    }
+
+    .voter-login-intro > :nth-child(5) {
+        animation-delay: 260ms;
+    }
+
+    .voter-login-intro > :nth-child(6) {
+        animation-delay: 320ms;
+    }
+
+    /* Emblem: pulsing rings, a rotating seal that reads E-VOTING around its edge, and a ballot box or school logo at the centre. */
+    .voter-login-stage {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 8rem;
+        height: 8rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .voter-login-ring {
+        position: absolute;
+        inset: 0.25rem;
+        border: 2px solid rgba(234, 88, 12, 0.35);
+        border-radius: 9999px;
+        animation: voter-login-pulse 2.8s ease-out infinite;
+    }
+
+    .voter-login-ring.is-delayed {
+        animation-delay: 1.4s;
+    }
+
+    .voter-login-seal {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: #c2410c;
+        animation: voter-login-spin 24s linear infinite;
+    }
+
+    .voter-login-seal text {
+        font-size: 9.5px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        fill: currentColor;
+    }
+
+    .voter-login-core {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+        box-shadow: inset 0 0 0 1px #fed7aa, 0 0 0 8px rgba(254, 215, 170, 0.35), 0 18px 30px -18px rgba(234, 88, 12, 0.8);
+    }
+
+    .voter-login-logo {
+        width: 5rem;
+        height: 5rem;
+        object-fit: contain;
+    }
+
+    .voter-login-box {
+        width: 4.5rem;
+        height: 4.5rem;
+        overflow: visible;
+    }
+
+    /* A ballot paper drops into the box and the tick is drawn on it, then the loop starts again. */
+    .voter-login-box-paper {
+        animation: voter-login-box-paper 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .voter-login-box-check {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 0;
+        animation: voter-login-box-check 2.6s ease-in-out infinite;
+    }
+
+    .voter-login-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border: 1px solid #fed7aa;
+        border-radius: 9999px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9a3412;
+        background: #fff7ed;
+    }
+
+    .voter-login-badge-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: #22c55e;
+        animation: voter-login-ping 1.8s ease-out infinite;
+    }
+
+    .voter-login-title {
+        margin-top: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: #1c1917;
+    }
+
+    .voter-login-text {
+        margin-top: 0.4rem;
+        max-width: 22rem;
+        font-size: 0.875rem;
+        line-height: 1.55;
+        color: #6b7280;
+    }
+
+    .voter-login-institution {
+        margin-top: 0.6rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .voter-login-announcement {
+        margin-top: 1rem;
+        max-width: 22rem;
+        border-left: 3px solid #c2410c;
+        border-radius: 0.5rem;
+        padding: 0.6rem 0.85rem;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        color: #1c1917;
+        background: #fff7ed;
+    }
+
+    .voter-login-announcement p {
+        margin: 0.2rem 0 0;
+        white-space: pre-line;
+    }
+
+    /* Floating ornaments: ballot slips and sparkles drift around the card. Shown from tablet width up. */
+    .voter-login-float {
+        display: none;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+        .voter-login-float {
+            display: block;
+        }
+    }
+
+    .voter-login-slip,
+    .voter-login-spark {
+        position: absolute;
+        animation: voter-login-float 7s ease-in-out infinite;
+    }
+
+    .voter-login-slip svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 14px 18px rgba(43, 12, 3, 0.35));
+    }
+
+    .voter-login-slip.is-one {
+        top: 16%;
+        left: 7%;
+        width: 3.25rem;
+        --tilt: -12deg;
+    }
+
+    .voter-login-slip.is-two {
+        right: 9%;
+        bottom: 14%;
+        width: 2.5rem;
+        --tilt: 10deg;
+        animation-delay: -2.5s;
+    }
+
+    .voter-login-slip.is-three {
+        top: 22%;
+        right: 16%;
+        width: 2rem;
+        --tilt: 6deg;
+        animation-delay: -4.5s;
+    }
+
+    .voter-login-spark {
+        width: 1.25rem;
+        color: #fde68a;
+        animation: voter-login-twinkle 3.2s ease-in-out infinite;
+    }
+
+    .voter-login-spark svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .voter-login-spark.is-one {
+        top: 11%;
+        left: 24%;
+    }
+
+    .voter-login-spark.is-two {
+        right: 22%;
+        bottom: 24%;
+        width: 0.9rem;
+        animation-delay: -1.6s;
+    }
+
+    /* Inputs: softer corners and a warm halo on focus instead of the default hard ring. */
+    .fi-simple-main .fi-input-wrp {
+        border-radius: 0.875rem;
+        transition: box-shadow 200ms ease;
+    }
+
+    .fi-simple-main .fi-input-wrp:focus-within {
+        box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.25);
+    }
+
+    /* Submit button: orange gradient, a lift on hover, and a light sweep across it. The extra class keeps it ahead of the admin app's flat primary rule. */
+    .fi-simple-layout .fi-simple-main .fi-btn.fi-color-primary[type='submit'] {
+        position: relative;
+        overflow: hidden;
+        background-image: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #c2410c 100%);
+        box-shadow: 0 14px 26px -14px rgba(194, 65, 12, 0.9);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .fi-simple-layout .fi-simple-main .fi-btn.fi-color-primary[type='submit']::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+        transform: translateX(-100%);
+        pointer-events: none;
+    }
+
+    .fi-simple-layout .fi-simple-main .fi-btn.fi-color-primary[type='submit']:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 30px -14px rgba(194, 65, 12, 1);
+    }
+
+    .fi-simple-layout .fi-simple-main .fi-btn.fi-color-primary[type='submit']:hover::after {
+        animation: voter-login-sweep 0.9s ease;
+    }
+
+    @media (max-width: 480px) {
+        .voter-login-stage {
+            width: 7.5rem;
+            height: 7.5rem;
+        }
+
+        .voter-login-core {
+            width: 5.25rem;
+            height: 5.25rem;
+        }
+
+        .voter-login-logo {
+            width: 4.25rem;
+            height: 4.25rem;
+        }
+    }
+
+    @keyframes voter-login-enter {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes voter-login-rise {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes voter-login-drift {
+        to {
+            background-position: 240px 240px;
+        }
+    }
+
+    @keyframes voter-login-glow {
+        0%, 100% {
+            opacity: 0.7;
+            transform: translateX(-50%) scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.08);
+        }
+    }
+
+    @keyframes voter-login-shimmer {
+        to {
+            background-position: 200% 0;
+        }
+    }
+
+    @keyframes voter-login-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes voter-login-pulse {
+        0% {
+            transform: scale(0.92);
+            opacity: 0.9;
+        }
+
+        100% {
+            transform: scale(1.12);
+            opacity: 0;
+        }
+    }
+
+    @keyframes voter-login-ping {
+        0% {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
+        }
+
+        70%, 100% {
+            box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+        }
+    }
+
+    @keyframes voter-login-float {
+        0%, 100% {
+            transform: translateY(0) rotate(var(--tilt, 0deg));
+        }
+
+        50% {
+            transform: translateY(-14px) rotate(calc(var(--tilt, 0deg) + 5deg));
+        }
+    }
+
+    @keyframes voter-login-twinkle {
+        0%, 100% {
+            opacity: 0.35;
+            transform: scale(0.8);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    }
+
+    @keyframes voter-login-sweep {
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes voter-login-box-paper {
+        0% {
+            transform: translateY(-16px);
+            opacity: 0;
+        }
+
+        12%, 58% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        82%, 100% {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+    }
+
+    @keyframes voter-login-box-check {
+        0%, 14% {
+            stroke-dashoffset: 1;
+        }
+
+        34%, 100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fi-simple-layout::before,
+        .fi-simple-layout::after,
+        .fi-simple-main,
+        .fi-simple-main::before,
+        .fi-simple-layout .fi-simple-main .fi-btn.fi-color-primary[type='submit']:hover::after,
+        .voter-login-intro > *,
+        .voter-login-ring,
+        .voter-login-seal,
+        .voter-login-box-paper,
+        .voter-login-box-check,
+        .voter-login-badge-dot,
+        .voter-login-slip,
+        .voter-login-spark {
+            animation: none !important;
+        }
+    }
+
+    /* Scalloped lower edge on the hero banners, like the serrated edge of a ballot slip. */
+    .voter-hero::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 10px;
+        background: radial-gradient(circle at 10px 0, #fafafa 9px, transparent 10px) 0 0 / 20px 10px repeat-x;
+        pointer-events: none;
+    }
+
+    /* Crown on the top-ranked candidate who advances. */
+    .voter-crown {
+        position: absolute;
+        top: -0.7rem;
+        left: 0.45rem;
+        width: 1.6rem;
+        height: 1.6rem;
+        color: #f59e0b;
+        filter: drop-shadow(0 2px 3px rgba(120, 53, 15, 0.35));
+        pointer-events: none;
+    }
+
+    .voter-crown svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Admin sidebar: frosted surface, perforated header rule, rounded items, and an orange active marker. */
+    .fi-sidebar {
+        background: rgba(255, 255, 255, 0.9);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-inline-end: 1px solid #f3e8dc;
+        box-shadow: 14px 0 30px -30px rgba(124, 45, 18, 0.5);
+    }
+
+    .fi-sidebar-header {
+        border-bottom: 2px dashed #fed7aa;
+    }
+
+    .fi-sidebar-group-label {
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #9a3412;
+    }
+
+    .fi-sidebar-item-btn {
+        border-radius: 0.75rem;
+        transition: background-color 150ms ease, color 150ms ease;
+    }
+
+    .fi-sidebar-item-btn:hover {
+        background: rgba(249, 115, 22, 0.08);
+    }
+
+    /* Admin results: summary tiles, live indicator, ranked candidates, and share bars. */
+    .admin-results {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .admin-results-summary {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+        .admin-results-summary {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    .admin-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        border: 1px solid #f3e8dc;
+        border-radius: 1rem;
+        padding: 0.9rem 1rem;
+        background: #fff;
+        box-shadow: 0 14px 28px -26px rgba(124, 45, 18, 0.6);
+    }
+
+    .admin-stat-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+
+    .admin-stat-value {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+        color: #111827;
+        line-height: 1.1;
+    }
+
+    .admin-stat-time {
+        font-size: 1.25rem;
+    }
+
+    .admin-stat-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .admin-stat.is-voted .admin-stat-value {
+        color: #c2410c;
+    }
+
+    .admin-stat.is-pending .admin-stat-value {
+        color: #b45309;
+    }
+
+    .admin-live-dot {
+        position: relative;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: #22c55e;
+    }
+
+    .admin-live-dot::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 9999px;
+        background: #22c55e;
+        animation: admin-live-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes admin-live-ping {
+        75%,
+        100% {
+            transform: scale(2.4);
+            opacity: 0;
+        }
+    }
+
+    .admin-ranking {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .admin-rank {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-radius: 0.875rem;
+        padding: 0.6rem 0.6rem;
+    }
+
+    .admin-rank.is-advancing {
+        background: #fff7ed;
+    }
+
+    .admin-rank-number {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #6b7280;
+        background: #f3f4f6;
+    }
+
+    .admin-rank.is-advancing .admin-rank-number {
+        color: #fff;
+        background: #ea580c;
+    }
+
+    .admin-rank-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .admin-rank-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .admin-rank-name {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .admin-rank-votes {
+        font-size: 0.8rem;
+        font-variant-numeric: tabular-nums;
+        color: #6b7280;
+    }
+
+    .admin-rank-votes strong {
+        font-size: 0.9rem;
+        color: #111827;
+    }
+
+    .admin-bar {
+        margin-top: 0.45rem;
+        height: 0.5rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        background: #f3f4f6;
+    }
+
+    .admin-bar span {
+        display: block;
+        height: 100%;
+        border-radius: 9999px;
+        background: #ea580c;
+        transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .admin-live-dot::after,
+        .admin-bar span {
+            animation: none;
+            transition: none;
+        }
+    }
+
+    /* Participation trend: cumulative turnout over time, drawn as SVG and refreshed by polling. */
+    .voter-trend {
+        border: 1px solid #e5e7eb;
+        border-radius: 1.25rem;
+        padding: 1.25rem 1.25rem 1rem;
+        background: #fff;
+        box-shadow: 0 18px 36px -30px rgba(124, 45, 18, 0.5);
+    }
+
+    .voter-trend-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .voter-trend-head h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #111827;
+    }
+
+    .voter-trend-head p {
+        margin-top: 0.2rem;
+        font-size: 0.8rem;
+        color: #6b7280;
+    }
+
+    .voter-trend-figure {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+        color: #ea580c;
+        line-height: 1;
+    }
+
+    .voter-trend-chart {
+        display: block;
+        width: 100%;
+        height: 9rem;
+        margin-top: 1rem;
+        overflow: visible;
+    }
+
+    .voter-trend-grid {
+        stroke: #e5e7eb;
+        stroke-width: 1;
+        stroke-dasharray: 4 6;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .voter-trend-line {
+        fill: none;
+        stroke: #ea580c;
+        stroke-width: 2.5;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .voter-trend-scale {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.4rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #9ca3af;
+    }
+
+    .voter-trend-empty {
+        margin-top: 1rem;
+        padding: 1.5rem 0;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #6b7280;
+        border-top: 1px dashed #ffedd5;
+    }
+
+    /* Admin results: provisional leader per field, shown as a strip above the detailed rankings. */
+    .admin-leaders {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 768px) {
+        .admin-leaders {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    .admin-leader {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        border: 1px solid #f3e8dc;
+        border-radius: 1rem;
+        padding: 0.85rem 1rem;
+        background: #fff;
+        box-shadow: 0 14px 28px -26px rgba(124, 45, 18, 0.6);
+    }
+
+    .admin-leader-field {
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #9a3412;
+    }
+
+    .admin-leader-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .admin-leader-meta {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    /* Admin elections: the election in effect for voters gets a warm tint and an orange edge. */
+    .fi-ta-row.admin-election-active {
+        background: #fff7ed;
+    }
+
+    .fi-ta-row.admin-election-active > td:first-child {
+        box-shadow: inset 4px 0 0 #ea580c;
+    }
+
+    /* Admin results: banner for the election in effect and whether voters can see results. */
+    .admin-status {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem 1.25rem;
+        border: 1px solid #f3e8dc;
+        border-radius: 1.25rem;
+        padding: 1rem 1.25rem;
+    }
+
+    .admin-status-main {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+    }
+
+    .admin-status-kicker {
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #9a3412;
+    }
+
+    .admin-status-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #111827;
+    }
+
+    .admin-status-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .admin-tie {
+        display: inline-block;
+        margin-left: 0.4rem;
+        border-radius: 9999px;
+        padding: 0.05rem 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #9a3412;
+        background: #ffedd5;
+    }
+
+    .admin-leader.is-tie {
+        border-left-color: #f59e0b;
+    }
+
+    /* Admin tables: rounded container with a soft warm shadow, and a gentle hover on rows. */
+    .fi-ta-ctn {
+        border-radius: 1.25rem;
+        box-shadow: 0 18px 36px -32px rgba(124, 45, 18, 0.55);
+    }
+
+    .fi-ta-row:hover {
+        background: rgba(249, 115, 22, 0.04);
+    }
+
+    /* Admin fields: each field name carries a small ballot-dot marker. */
+    .admin-field-name::before {
+        content: '';
+        display: inline-block;
+        width: 0.55rem;
+        height: 0.55rem;
+        margin-right: 0.55rem;
+        vertical-align: middle;
+        border-radius: 9999px;
+        background: #ea580c;
+    }
+
+    /* Ornaments: a ballot-slip motif shared by every admin page (perforated rules, corner glows, scalloped edges). */
+
+    .admin-page-ornament {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0 0 1.25rem;
+    }
+
+    .admin-page-ornament-line {
+        flex: 1;
+        border-top: 2px dashed #fdba74;
+        opacity: 0.8;
+    }
+
+    .admin-page-ornament-mark svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    /* Stat cards: a soft corner glow and a perforated foot, like the edge of a ballot slip. */
+    .fi-wi-stats-overview-stat-content {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .admin-stat {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Sections: a small orange dot ahead of each heading and a dashed rule under the header. */
+    .fi-section-header {
+        border-bottom: 1px dashed #fed7aa;
+    }
+
+    /* Page header: dashed rule under the title block, matching the ornament strip. */
+    .fi-header {
+        padding-bottom: 0.75rem;
+        border-bottom: 2px dashed #fed7aa;
+    }
+
+    /* Empty states: a faint ballot-dot grid behind the message. */
+    .fi-ta-empty-state-content {
+        border-radius: 1rem;
+    }
+
+    /* Tables: a dashed perforation along the top edge of the container. */
+    .fi-ta-ctn {
+        border-top: 3px dashed #fed7aa;
+    }
+
+    /* Admin lists: bolder page titles, orange primary buttons, tinted table headers, and pill badges. */
+    .fi-header-heading {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #111827;
+    }
+
+    .fi-header-subheading {
+        color: #6b7280;
+    }
+
+    .fi-btn.fi-color-primary:not(.fi-outlined) {
+        border-radius: 0.75rem;
+        color: #fff;
+    }
+
+    .fi-btn.fi-color-primary:not(.fi-outlined):hover {
+        filter: brightness(1.05);
+    }
+
+    .fi-btn.fi-outlined {
+        border-radius: 0.75rem;
+    }
+
+    .fi-ta-header-cell {
+        background: #fff7ed;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9a3412;
+    }
+
+    .fi-badge {
+        border-radius: 9999px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+    }
+
+    .fi-input-wrp {
+        border-radius: 0.75rem;
+    }
+
+    .fi-dropdown-panel {
+        border-radius: 1rem;
+        box-shadow: 0 24px 40px -28px rgba(124, 45, 18, 0.55);
+    }
+
+    .fi-pagination-item-btn {
+        border-radius: 0.6rem;
+    }
+
+    .fi-pagination-item.fi-active .fi-pagination-item-btn {
+        color: #fff;
+    }
+
+    .fi-section {
+        border-radius: 1.25rem;
+        box-shadow: 0 18px 36px -32px rgba(124, 45, 18, 0.55);
+    }
+
+    /* Admin results: a paused live indicator stops pulsing, and the lead margin reads as a positive gain. */
+    .admin-live-dot.is-paused {
+        background: #9ca3af;
+    }
+
+    .admin-live-dot.is-paused::after {
+        display: none;
+    }
+
+    .admin-leader-lead {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #15803d;
+    }
+
+    /* Brand selection and focus rings, so the admin reads as one designed surface rather than browser defaults. */
+    .fi-layout ::selection {
+        background: rgba(249, 115, 22, 0.28);
+        color: #111827;
+    }
+
+    /* Shared panel look (admin and voter): brand gradient actions, ballot-box mark, and the glow on stat cards. */
+    .voter-brand-mark {
+        background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        box-shadow: 0 8px 16px -10px rgba(234, 88, 12, 0.9);
+    }
+
+    .fi-btn.fi-color-primary:not(.fi-outlined) {
+        background-image: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        box-shadow: 0 10px 20px -12px rgba(234, 88, 12, 0.9);
+    }
+
+    .fi-btn.fi-color-primary:not(.fi-outlined):hover {
+        box-shadow: 0 14px 24px -12px rgba(234, 88, 12, 0.95);
+    }
+
+    .fi-pagination-item.fi-active .fi-pagination-item-btn {
+        background-image: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+    }
+
+    .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+        color: #c2410c;
+        font-weight: 600;
+        background: linear-gradient(90deg, rgba(249, 115, 22, 0.16) 0%, rgba(249, 115, 22, 0.03) 100%);
+        box-shadow: inset 3px 0 0 #ea580c;
+    }
+
+    .fi-wi-stats-overview-stat-content::before {
+        content: '';
+        position: absolute;
+        top: -1.5rem;
+        right: -1.5rem;
+        width: 5rem;
+        height: 5rem;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(249, 115, 22, 0.18) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .fi-section-header-heading::before {
+        content: '';
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-right: 0.55rem;
+        vertical-align: middle;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+    }
+
+    .fi-tabs {
+        display: inline-flex;
+        max-width: 100%;
+        gap: 0.25rem;
+        padding: 0.3rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        border: 1px solid #f3e8dc;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.85);
+    }
+
+    .fi-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .fi-tabs-item {
+        flex: none;
+        gap: 0.4rem;
+        border-radius: 9999px;
+        padding: 0.4rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: background-color 150ms ease, color 150ms ease;
+    }
+
+    .fi-tabs-item:hover {
+        color: #c2410c;
+        background: rgba(249, 115, 22, 0.08);
+    }
+
+    .fi-tabs-item.fi-active {
+        color: #fff;
+        background-image: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        box-shadow: 0 10px 18px -12px rgba(234, 88, 12, 0.95);
+    }
+
+    .fi-tabs-item.fi-active .fi-badge {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.24);
+    }
+
+    .admin-leader {
+        border-left: 4px solid #ea580c;
+    }
+
+    .fi-wi-stats-overview-stat-label-ctn svg {
+        color: #ea580c;
+    }
+
+    .fi-wi-stats-overview-stat-value {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+
+    .fi-wi-stats-overview-stat {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fi-wi-table .fi-ta-header-heading::before {
+        content: '';
+        display: inline-block;
+        width: 1.1rem;
+        height: 1.1rem;
+        margin-right: 0.55rem;
+        vertical-align: -0.2rem;
+        border-radius: 0.3rem;
+        background: #ea580c url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5'/%3E%3C/svg%3E") center / 80% no-repeat;
+    }
+
+    .fi-wi-table .fi-ta-row:first-child > td:first-child {
+        position: relative;
+    }
+
+    .fi-wi-table .fi-ta-row:first-child > td:first-child::before,
+    .fi-wi-table .fi-ta-row:first-child > td:first-child::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0.6rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-top: -0.25rem;
+        border-radius: 9999px;
+        background: #16a34a;
+        pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .fi-wi-table .fi-ta-row:first-child > td:first-child::after {
+            animation: admin-live-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fi-wi-table .fi-ta-row:first-child > td:first-child::after {
+            display: none;
+        }
+    }
+
+    /* Results: a crown on the top advancing candidate and a faint ballot-dot field in the status banner. */
+    .admin-rank-number {
+        position: relative;
+    }
+
+    .admin-rank.is-advancing:first-child .admin-rank-number::after {
+        content: '';
+        position: absolute;
+        top: -0.8rem;
+        left: -0.4rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f59e0b' stroke='%23b45309' stroke-width='1.2' stroke-linejoin='round'%3E%3Cpath d='M3 18h18l1-10-5 4-5-8-5 8-5-4z'/%3E%3C/svg%3E") center / contain no-repeat;
+        transform: rotate(-14deg);
+        pointer-events: none;
+    }
+
+    /* Dashboard widgets: countdown, shortcuts and readiness checklist, in the voter panel's orange ballot language. */
+    .admin-countdown {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem 1.5rem;
+        border: 1px solid #f3e8dc;
+        border-radius: 1.25rem;
+        padding: 1.1rem 1.4rem;
+        background: #fff;
+        box-shadow: 0 18px 36px -32px rgba(124, 45, 18, 0.55);
+    }
+
+    .admin-countdown-main {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.25rem 1rem;
+    }
+
+    .admin-countdown-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .admin-countdown-clock {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+        color: #c2410c;
+    }
+
+    .admin-countdown.is-closed .admin-countdown-title,
+    .admin-countdown.is-none .admin-countdown-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .admin-countdown-note {
+        font-size: 0.8rem;
+        color: #6b7280;
+    }
+
+    .admin-countdown-link {
+        border-radius: 0.75rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #fff;
+        background-image: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+    }
+
+    .admin-shortcuts {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 768px) {
+        .admin-shortcuts {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .admin-shortcuts {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+    }
+
+    .admin-shortcut {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        border: 1px dashed #fdba74;
+        border-radius: 1rem;
+        padding: 0.8rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #9a3412;
+        background: #fff;
+        transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease;
+    }
+
+    .admin-shortcut:hover {
+        transform: translateY(-2px);
+        border-style: solid;
+        border-color: #ea580c;
+        background: #fff7ed;
+    }
+
+    .admin-shortcut:focus-visible {
+        outline: 3px solid #fdba74;
+        outline-offset: 2px;
+    }
+
+    .admin-shortcut-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #ea580c;
+    }
+
+    .admin-readiness {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.875rem;
+    }
+
+    .admin-readiness-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .admin-readiness-mark {
+        flex: none;
+        width: 1.1rem;
+        height: 1.1rem;
+        border: 2px solid #d1d5db;
+        border-radius: 0.3rem;
+    }
+
+    .admin-readiness-item.is-ok .admin-readiness-mark {
+        border-color: #16a34a;
+        background: #16a34a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5'/%3E%3C/svg%3E") center / 80% no-repeat;
+    }
+
+    .admin-readiness-item.is-warn a {
+        font-weight: 600;
+        color: #c2410c;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    /* Results: field filter, projector mode and print. */
+    .admin-field-filter {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .admin-field-select {
+        border: 1px solid #f3e8dc;
+        border-radius: 0.75rem;
+        padding: 0.45rem 2rem 0.45rem 0.8rem;
+        font-size: 0.875rem;
+        color: #111827;
+        background-color: #fff;
+    }
+
+    .admin-field-select:focus-visible {
+        outline: 3px solid #fdba74;
+        outline-offset: 1px;
+    }
+
+    .admin-projector .admin-results-summary,
+    .admin-projector .voter-trend {
+        display: none;
+    }
+
+    .admin-projector .admin-leader-name {
+        font-size: 1.75rem;
+    }
+
+    .admin-projector .admin-leader-field,
+    .admin-projector .admin-leader-meta {
+        font-size: 1rem;
+    }
+
+    .admin-projector .admin-rank-name {
+        font-size: 1.35rem;
+    }
+
+    .admin-projector .admin-rank-votes {
+        font-size: 1.05rem;
+    }
+
+    .admin-projector .admin-rank-votes strong {
+        font-size: 1.5rem;
+    }
+
+    .admin-projector .admin-rank-number {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.1rem;
+    }
+
+    .admin-projector .admin-bar {
+        height: 0.9rem;
+    }
+
+    @media print {
+        .fi-sidebar,
+        .fi-topbar,
+        .fi-sidebar-close-overlay,
+        .fi-header-actions-ctn,
+        .admin-field-filter,
+        .admin-page-ornament,
+        .fi-notifications {
+            display: none !important;
+        }
+
+        .fi-layout {
+            background: #fff !important;
+            background-image: none !important;
+        }
+
+        .fi-main,
+        .fi-main-ctn {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .admin-leader,
+        .admin-stat,
+        .fi-section {
+            break-inside: avoid;
+            box-shadow: none !important;
+        }
+    }
+
+    /* Candidate preview: the card exactly as voters see it, on a ballot-dot field. */
+    .admin-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        border-radius: 1rem;
+        padding: 1.5rem 1rem;
+        background: radial-gradient(rgba(234, 88, 12, 0.1) 1px, transparent 1px) 0 0 / 16px 16px;
+    }
+
+    .admin-preview-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        width: 13rem;
+        text-align: center;
+    }
+
+    .admin-preview-media {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        background: linear-gradient(160deg, #fed7aa 0%, #fdba74 55%, #fb923c 100%);
+        box-shadow: 0 16px 30px -22px rgba(124, 45, 18, 0.8);
+    }
+
+    .admin-preview-photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .admin-preview-initial {
+        font-size: 4rem;
+        font-weight: 800;
+        color: #fff;
+    }
+
+    .admin-preview-name {
+        font-size: 0.975rem;
+        font-weight: 700;
+        line-height: 1.25;
+        color: #111827;
+    }
+
+    .admin-preview-note {
+        font-size: 0.8rem;
+        color: #6b7280;
+    }
+
+    /* Create and edit forms: ticket-style sections with a dashed edge. */
+    .fi-resource-create-record-page .fi-section,
+    .fi-resource-edit-record-page .fi-section {
+        border: 1px dashed #fdba74;
+    }
+
+    /* Stat cards, on every admin page: one card style, equal heights, safe long values. */
+    .fi-wi-stats-overview-stat {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        border: 1px solid #f3e8dc;
+        border-radius: 1.25rem;
+        background: #fff;
+        box-shadow: none;
+        transition: transform 150ms ease, border-color 150ms ease;
+    }
+
+    .fi-wi-stats-overview-stat:hover {
+        transform: translateY(-2px);
+        border-color: #fdba74;
+        box-shadow: none;
+    }
+
+    .fi-wi-stats-overview-stat-content::before {
+        display: none;
+    }
+
+    .fi-wi-stats-overview-stat-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        height: 100%;
+    }
+
+    .fi-wi-stats-overview-stat-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .fi-wi-stats-overview-stat-value {
+        font-size: 1.75rem;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+        font-variant-numeric: tabular-nums;
+        color: #111827;
+    }
+
+    .fi-wi-stats-overview-stat-description {
+        margin-top: auto;
+        padding-top: 0.4rem;
+        border-top: 1px dotted #fed7aa;
+        font-size: 0.8rem;
+        line-height: 1.35;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fi-wi-stats-overview-stat,
+        .fi-wi-stats-overview-stat:hover {
+            transition: none;
+            transform: none;
+        }
+    }
+
+    /* Stat grids size their columns to the number of cards: Filament's inline vars reserve three columns even for two cards. */
+    .fi-grid:has(> .fi-grid-col:nth-child(2):last-child > .fi-sc-component > .fi-wi-stats-overview-stat) {
+        --cols-cxl: repeat(2, minmax(0, 1fr)) !important;
+        --cols-nclg: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .fi-grid:has(> .fi-grid-col:only-child > .fi-sc-component > .fi-wi-stats-overview-stat) {
+        --cols-cxl: repeat(1, minmax(0, 1fr)) !important;
+        --cols-nclg: repeat(1, minmax(0, 1fr)) !important;
+    }
+
+    .fi-section:has(.fi-wi-stats-overview-stat) {
+        border: 0;
+        background: transparent;
+        background-image: none;
+        box-shadow: none;
+        --tw-ring-shadow: 0 0 #0000;
+    }
+
+    .fi-section:has(.fi-wi-stats-overview-stat) > .fi-section-content-ctn > .fi-section-content,
+    .fi-section:has(.fi-wi-stats-overview-stat) > .fi-section-content {
+        padding: 0;
+    }
+
+    .fi-section:has(.fi-wi-stats-overview-stat) > .fi-section-header {
+        padding-inline: 0;
+    }
+
+    /* Voter results page: a tally-board layout. Every rule sits under .results-page so the other voter pages keep their look. */
+    .results-page {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        max-width: 72rem;
+        margin-inline: auto;
+        padding: 1rem 1.25rem 3rem;
+    }
+
+    /* Hero: an ember banner with a turnout gauge, floating ballots, and a SAH stamp once results are final. */
+    .results-hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 1.5rem;
+        overflow: hidden;
+        isolation: isolate;
+        border-radius: 1.75rem;
+        padding: 2rem 2.25rem;
+        color: #fff;
+        background:
+            radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px) 0 0 / 18px 18px,
+            radial-gradient(circle at 85% 20%, rgba(253, 186, 116, 0.35) 0%, transparent 40%),
+            linear-gradient(135deg, #431407 0%, #9a3412 50%, #ea580c 100%);
+        box-shadow: 0 30px 60px -34px rgba(67, 20, 7, 0.9);
+        animation: results-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .results-hero-art {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .results-hero-slip {
+        position: absolute;
+        width: 2.5rem;
+        height: 3.25rem;
+        border: 2px solid rgba(255, 255, 255, 0.45);
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.12);
+        animation: results-float 8s ease-in-out infinite;
+    }
+
+    .results-hero-slip.is-one {
+        top: 6%;
+        right: 6%;
+        --tilt: -10deg;
+    }
+
+    .results-hero-slip.is-two {
+        bottom: 4%;
+        right: 3%;
+        width: 2rem;
+        height: 2.6rem;
+        --tilt: 8deg;
+        animation-delay: -3s;
+    }
+
+    .results-hero-slip.is-three {
+        top: 46%;
+        right: 1%;
+        width: 1.6rem;
+        height: 2.1rem;
+        --tilt: 4deg;
+        animation-delay: -5s;
+    }
+
+    .results-hero-spark {
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        color: #fde68a;
+        animation: results-twinkle 3.2s ease-in-out infinite;
+    }
+
+    .results-hero-spark svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .results-hero-spark.is-one {
+        top: 12%;
+        right: 27%;
+    }
+
+    .results-hero-spark.is-two {
+        bottom: 10%;
+        right: 26%;
+        width: 0.75rem;
+        height: 0.75rem;
+        animation-delay: -1.6s;
+    }
+
+    .results-hero-copy {
+        position: relative;
+        min-width: 0;
+    }
+
+    .results-hero-top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .results-status,
+    .results-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border-radius: 9999px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .results-status-dot,
+    .results-live-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: #fde68a;
+    }
+
+    .results-status.is-open .results-status-dot {
+        background: #4ade80;
+        animation: results-ping 1.8s ease-out infinite;
+    }
+
+    .results-live-dot {
+        animation: results-ping 1.8s ease-out infinite;
+    }
+
+    .results-hero-title {
+        margin-top: 0.9rem;
+        font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: #fff;
+    }
+
+    .results-hero-text {
+        margin-top: 0.5rem;
+        max-width: 34rem;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .results-hero-link {
+        font-weight: 700;
+        color: #fff;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    /* Turnout gauge: a ring that fills on load, with the percentage in the middle. */
+    .results-gauge {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 10.5rem;
+        height: 10.5rem;
+    }
+
+    .results-gauge > svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+
+    .results-gauge-track {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.2);
+        stroke-width: 9;
+    }
+
+    .results-gauge-fill {
+        fill: none;
+        stroke: #fde68a;
+        stroke-width: 9;
+        stroke-linecap: round;
+        stroke-dasharray: 326.7;
+        stroke-dashoffset: 326.7;
+        filter: drop-shadow(0 0 6px rgba(253, 230, 138, 0.6));
+        animation: results-gauge 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s forwards;
+    }
+
+    .results-gauge-value {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+    }
+
+    .results-gauge-value strong {
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .results-gauge-value span {
+        margin-top: 0.2rem;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.85;
+    }
+
+    .results-gauge-meta {
+        position: absolute;
+        bottom: -1.75rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .results-stamp {
+        position: absolute;
+        top: 6%;
+        left: -0.5rem;
+        border: 3px solid #fde68a;
+        border-radius: 0.4rem;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.85rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        color: #fde68a;
+        transform: rotate(-12deg);
+        opacity: 0;
+        animation: results-stamp-hero 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) 1.4s forwards;
+    }
+
+    /* Summary tiles. */
+    .results-stats {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .results-stat {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        overflow: hidden;
+        border: 1px solid #fde7d3;
+        border-radius: 1.25rem;
+        padding: 1rem 1.1rem;
+        background: #fff;
+        box-shadow: 0 18px 30px -26px rgba(67, 20, 7, 0.5);
+        animation: results-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .results-stat:nth-child(2) {
+        animation-delay: 80ms;
+    }
+
+    .results-stat:nth-child(3) {
+        animation-delay: 160ms;
+    }
+
+    .results-stat::after {
+        content: '';
+        position: absolute;
+        top: -1.5rem;
+        right: -1.5rem;
+        width: 5rem;
+        height: 5rem;
+        border-radius: 9999px;
+        background: radial-gradient(circle, #ffedd5 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .results-stat-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #78716c;
+    }
+
+    .results-stat-value {
+        font-size: 1.9rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: #1c1917;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .results-stat.is-voted .results-stat-value {
+        color: #c2410c;
+    }
+
+    .results-stat.is-pending .results-stat-value {
+        color: #78716c;
+    }
+
+    .results-stat-meta {
+        font-size: 0.75rem;
+        color: #78716c;
+    }
+
+    /* Panels: trend and recap. */
+    .results-panel {
+        border: 1px solid #fde7d3;
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        background: #fff;
+        box-shadow: 0 24px 40px -34px rgba(67, 20, 7, 0.6);
+        animation: results-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .results-panel-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .results-panel-head h3 {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #1c1917;
+    }
+
+    .results-panel-head p {
+        margin-top: 0.2rem;
+        font-size: 0.8rem;
+        color: #78716c;
+    }
+
+    .results-trend-figure {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #ea580c;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .results-trend-chart {
+        width: 100%;
+        height: 8rem;
+        margin-top: 1rem;
+        overflow: visible;
+    }
+
+    .results-trend-grid {
+        stroke: #fed7aa;
+        stroke-width: 1;
+        stroke-dasharray: 4 6;
+    }
+
+    .results-trend-area {
+        animation: results-fade 1.2s ease both;
+    }
+
+    .results-trend-line {
+        fill: none;
+        stroke: #ea580c;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 0;
+        filter: drop-shadow(0 4px 6px rgba(234, 88, 12, 0.35));
+        animation: results-draw 1.6s ease-out both;
+    }
+
+    .results-trend-scale {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        font-size: 0.7rem;
+        color: #a8a29e;
+    }
+
+    .results-trend-empty {
+        margin-top: 1rem;
+        font-size: 0.875rem;
+        color: #78716c;
+    }
+
+    /* Ballot cards: one per field, with a perforated rule under the heading and an orange top edge. */
+    .results-ballots {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+        .results-ballots {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    .results-ballot {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #fed7aa;
+        border-radius: 1.25rem;
+        padding: 1.5rem 1.25rem 1.25rem;
+        background: linear-gradient(180deg, #fffdfa 0%, #fff 18%);
+        box-shadow: 0 24px 40px -34px rgba(67, 20, 7, 0.6);
+        animation: results-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .results-ballot::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #ea580c, #facc15, #f97316);
+    }
+
+    .results-ballot-head {
+        display: grid;
+        gap: 0.15rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.9rem;
+        border-bottom: 2px dashed #fed7aa;
+    }
+
+    .results-ballot-no {
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #ea580c;
+    }
+
+    .results-ballot-head h3 {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #1c1917;
+    }
+
+    .results-ballot-meta {
+        font-size: 0.75rem;
+        color: #78716c;
+    }
+
+    .results-ranking {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .results-rank {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.5rem 2.5rem minmax(0, 1fr);
+        align-items: center;
+        gap: 0.4rem 0.75rem;
+        border-radius: 0.9rem;
+        padding: 0.55rem 0.6rem;
+        animation: results-rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms) both;
+    }
+
+    .results-rank.is-advancing {
+        background: linear-gradient(90deg, #fff7ed 0%, #fffdfa 100%);
+    }
+
+    .results-rank-number {
+        display: grid;
+        place-items: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: #78716c;
+        background: #f5f5f4;
+    }
+
+    .results-rank.is-advancing .results-rank-number {
+        color: #fff;
+        background: #ea580c;
+        box-shadow: 0 6px 12px -6px rgba(234, 88, 12, 0.8);
+    }
+
+    .results-rank-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.75rem;
+        object-fit: cover;
+        background: #ffedd5;
+    }
+
+    .results-rank-avatar.is-initial {
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        color: #c2410c;
+    }
+
+    .results-rank-body {
+        min-width: 0;
+    }
+
+    .results-rank-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.25rem 0.5rem;
+    }
+
+    .results-rank-name {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #1c1917;
+    }
+
+    .results-rank-votes {
+        font-size: 0.75rem;
+        white-space: nowrap;
+        color: #78716c;
+    }
+
+    .results-rank-votes strong {
+        color: #1c1917;
+    }
+
+    .results-rank-track {
+        height: 0.55rem;
+        margin-top: 0.4rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        background: #f5f5f4;
+    }
+
+    .results-rank-fill {
+        width: var(--bar);
+        height: 100%;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, #fb923c, #ea580c);
+        animation: results-bar 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--delay, 0ms) + 150ms) both;
+    }
+
+    .results-rank:not(.is-advancing) .results-rank-fill {
+        background: #d6d3d1;
+    }
+
+    /* Stamp on advancing candidates, a crown for the leader, and a sparkle for the rest who advance. */
+    .results-stamp-chip {
+        display: inline-flex;
+        align-items: center;
+        border: 1.5px solid #16a34a;
+        border-radius: 0.35rem;
+        padding: 0.05rem 0.4rem;
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #15803d;
+        background: #f0fdf4;
+        transform: rotate(-4deg);
+        animation: results-stamp-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) calc(var(--delay, 0ms) + 300ms) both;
+    }
+
+    .results-crown {
+        position: absolute;
+        top: -0.6rem;
+        left: 1.1rem;
+        width: 1.4rem;
+        height: 1.4rem;
+        color: #f59e0b;
+        filter: drop-shadow(0 2px 3px rgba(120, 53, 15, 0.35));
+        animation: results-bob 2.4s ease-in-out infinite;
+    }
+
+    .results-crown svg,
+    .results-spark svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .results-spark {
+        position: absolute;
+        top: -0.35rem;
+        left: 1.6rem;
+        width: 0.9rem;
+        height: 0.9rem;
+        color: #facc15;
+        animation: results-twinkle 2.6s ease-in-out infinite;
+    }
+
+    /* Recap tables, styled like a printed tally sheet. */
+    .results-recap {
+        overflow-x: auto;
+    }
+
+    .results-table {
+        width: 100%;
+        margin-top: 1rem;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+    }
+
+    .results-table + .results-table {
+        margin-top: 1.5rem;
+    }
+
+    .results-table caption {
+        caption-side: top;
+        padding-bottom: 0.5rem;
+        text-align: left;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #ea580c;
+    }
+
+    .results-table th {
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid #fde7d3;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-align: left;
+        color: #78716c;
+    }
+
+    .results-table td {
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid #fef3e8;
+        color: #44403c;
+    }
+
+    .results-table .is-num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .results-table tr.is-advancing td {
+        font-weight: 700;
+        color: #1c1917;
+        background: #fff7ed;
+    }
+
+    .results-table tfoot th,
+    .results-table tfoot td {
+        border-top: 2px solid #fed7aa;
+        border-bottom: 0;
+        font-weight: 800;
+        color: #1c1917;
+    }
+
+    /* Locked state: a sealed ballot box with pulsing rings and floating ballots. */
+    .results-locked {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        border: 1px dashed #fdba74;
+        border-radius: 1.5rem;
+        background: #fff;
+        animation: results-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .results-locked-art {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 9rem;
+        height: 9rem;
+        margin-bottom: 1rem;
+    }
+
+    .results-locked-ring {
+        position: absolute;
+        inset: 0;
+        border: 2px solid rgba(234, 88, 12, 0.35);
+        border-radius: 9999px;
+        animation: results-pulse 2.8s ease-out infinite;
+    }
+
+    .results-locked-ring.is-delayed {
+        animation-delay: 1.4s;
+    }
+
+    .results-locked-slip {
+        position: absolute;
+        width: 1.6rem;
+        height: 2.1rem;
+        border: 2px solid #fdba74;
+        border-radius: 0.35rem;
+        background: #fff;
+        box-shadow: 0 10px 16px -10px rgba(124, 45, 18, 0.5);
+        animation: results-float 6s ease-in-out infinite;
+    }
+
+    .results-locked-slip.is-one {
+        top: 4%;
+        left: 6%;
+        --tilt: -12deg;
+    }
+
+    .results-locked-slip.is-two {
+        right: 4%;
+        bottom: 6%;
+        --tilt: 10deg;
+        animation-delay: -2.5s;
+    }
+
+    .results-locked-box {
+        display: grid;
+        place-items: center;
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 1.25rem;
+        color: #fff;
+        background: linear-gradient(135deg, #fb923c 0%, #c2410c 100%);
+        box-shadow: 0 18px 30px -18px rgba(194, 65, 12, 0.9);
+    }
+
+    .results-locked-box svg {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .results-locked-title {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #1c1917;
+    }
+
+    .results-locked-text {
+        margin-top: 0.4rem;
+        font-size: 0.875rem;
+        color: #78716c;
+    }
+
+    @media (max-width: 720px) {
+        .results-page {
+            padding-inline: 1rem;
+        }
+
+        .results-hero {
+            grid-template-columns: minmax(0, 1fr);
+            justify-items: center;
+            padding: 1.5rem 1.25rem 2.25rem;
+            text-align: center;
+        }
+
+        .results-hero-top {
+            justify-content: center;
+        }
+
+        .results-hero-copy {
+            text-align: center;
+        }
+
+        .results-hero-text {
+            margin-inline: auto;
+        }
+
+        .results-stats {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        .results-stat:last-child {
+            grid-column: 1 / -1;
+        }
+    }
+
+    @keyframes results-rise {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes results-float {
+        0%, 100% {
+            transform: translateY(0) rotate(var(--tilt, 0deg));
+        }
+
+        50% {
+            transform: translateY(-12px) rotate(calc(var(--tilt, 0deg) + 5deg));
+        }
+    }
+
+    @keyframes results-twinkle {
+        0%, 100% {
+            opacity: 0.35;
+            transform: scale(0.8);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    }
+
+    @keyframes results-ping {
+        0% {
+            box-shadow: 0 0 0 0 rgba(253, 230, 138, 0.6);
+        }
+
+        70%, 100% {
+            box-shadow: 0 0 0 7px rgba(253, 230, 138, 0);
+        }
+    }
+
+    @keyframes results-gauge {
+        from {
+            stroke-dashoffset: 326.7;
+        }
+
+        to {
+            stroke-dashoffset: var(--gauge-offset);
+        }
+    }
+
+    @keyframes results-stamp-hero {
+        from {
+            opacity: 0;
+            transform: rotate(-12deg) scale(1.8);
+        }
+
+        to {
+            opacity: 0.95;
+            transform: rotate(-12deg) scale(1);
+        }
+    }
+
+    @keyframes results-stamp-in {
+        from {
+            opacity: 0;
+            transform: rotate(-4deg) scale(1.6);
+        }
+
+        to {
+            opacity: 1;
+            transform: rotate(-4deg) scale(1);
+        }
+    }
+
+    @keyframes results-draw {
+        from {
+            stroke-dashoffset: 1;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes results-fade {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes results-bar {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: var(--bar);
+        }
+    }
+
+    @keyframes results-bob {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    @keyframes results-pulse {
+        0% {
+            transform: scale(0.92);
+            opacity: 0.9;
+        }
+
+        100% {
+            transform: scale(1.12);
+            opacity: 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .results-page *,
+        .results-page *::before,
+        .results-page *::after {
+            animation: none !important;
+        }
+
+        .results-gauge-fill {
+            stroke-dashoffset: var(--gauge-offset);
+        }
+
+        .results-stamp {
+            opacity: 0.95;
+        }
+    }
+
+    /* Voter status page: a three-step tracker and a ticket-style receipt. Every rule sits under .status-page. */
+    .status-page {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 48rem;
+        margin-inline: auto;
+        padding: 1rem 1.25rem 3rem;
+    }
+
+    /* Hero: the same ember banner as the results page, with a pulsing ring and floating ballots. */
+    .status-hero {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        isolation: isolate;
+        border-radius: 1.75rem;
+        padding: 1.75rem 2rem;
+        color: #fff;
+        background:
+            radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px) 0 0 / 18px 18px,
+            radial-gradient(circle at 90% 10%, rgba(253, 186, 116, 0.35) 0%, transparent 40%),
+            linear-gradient(135deg, #431407 0%, #9a3412 50%, #ea580c 100%);
+        box-shadow: 0 30px 60px -34px rgba(67, 20, 7, 0.9);
+        animation: status-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .status-hero-art {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .status-hero-ring {
+        position: absolute;
+        top: -4.5rem;
+        right: -4rem;
+        width: 14rem;
+        height: 14rem;
+        border: 2px solid rgba(253, 230, 138, 0.35);
+        border-radius: 9999px;
+        animation: status-pulse 3.2s ease-out infinite;
+    }
+
+    .status-hero-ring.is-delayed {
+        animation-delay: 1.6s;
+    }
+
+    .status-hero-slip {
+        position: absolute;
+        width: 2.25rem;
+        height: 2.9rem;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 0.45rem;
+        background: rgba(255, 255, 255, 0.1);
+        animation: status-float 8s ease-in-out infinite;
+    }
+
+    .status-hero-slip.is-one {
+        top: 14%;
+        right: 14%;
+        --tilt: -10deg;
+    }
+
+    .status-hero-slip.is-two {
+        bottom: 12%;
+        right: 4%;
+        width: 1.6rem;
+        height: 2.1rem;
+        --tilt: 8deg;
+        animation-delay: -3s;
+    }
+
+    .status-hero-copy {
+        position: relative;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        align-self: flex-start;
+        border-radius: 9999px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .status-pill-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: #4ade80;
+        animation: status-ping 1.8s ease-out infinite;
+    }
+
+    .status-hero-title {
+        margin-top: 0.9rem;
+        text-wrap: balance;
+        font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: #fff;
+    }
+
+    .status-hero-text {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.88);
+    }
+
+    /* The countdown partial is shared with the ballot page, so its look is set here only. */
+    .status-hero .voter-countdown {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        align-self: flex-start;
+        margin-top: 1rem;
+        border-radius: 9999px;
+        padding: 0.45rem 0.9rem;
+        font-size: 0.8rem;
+        color: #fff;
+        background: rgba(43, 12, 3, 0.35);
+    }
+
+    .status-hero .voter-countdown-value {
+        font-size: 0.95rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Three-step tracker: a line that fills toward the ballot step, with a glowing dot on the current step. */
+    .status-steps {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .status-steps::before,
+    .status-steps::after {
+        content: '';
+        position: absolute;
+        top: 1.1rem;
+        left: 16.67%;
+        height: 3px;
+        border-radius: 9999px;
+    }
+
+    .status-steps::before {
+        right: 16.67%;
+        background: #fde7d3;
+    }
+
+    .status-steps::after {
+        width: var(--progress, 0%);
+        background: linear-gradient(90deg, #22c55e, #16a34a);
+        animation: status-fill 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
+    }
+
+    .status-step {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.45rem;
+        text-align: center;
+        animation: status-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .status-step:nth-child(2) {
+        animation-delay: 120ms;
+    }
+
+    .status-step:nth-child(3) {
+        animation-delay: 240ms;
+    }
+
+    .status-step-dot {
+        display: grid;
+        place-items: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border: 2px solid #fde7d3;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: #a8a29e;
+        background: #fff;
+        box-shadow: 0 6px 14px -10px rgba(67, 20, 7, 0.6);
+    }
+
+    .status-step-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #a8a29e;
+    }
+
+    .status-step.is-done .status-step-dot {
+        border-color: #bbf7d0;
+        color: #fff;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .status-step.is-done .status-step-label {
+        color: #15803d;
+    }
+
+    .status-step.is-current .status-step-dot {
+        border-color: #fed7aa;
+        color: #fff;
+        background: linear-gradient(135deg, #fb923c, #ea580c);
+        animation: status-glow 2s ease-in-out infinite;
+    }
+
+    .status-step.is-current .status-step-label {
+        color: #c2410c;
+    }
+
+    /* Receipt: a ticket with a perforated stub. The stub carries the stamp and a decorative barcode. */
+    .status-receipt {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 12rem;
+        overflow: hidden;
+        border: 1px solid #fde7d3;
+        border-radius: 1.5rem;
+        background: #fff;
+        box-shadow: 0 30px 50px -36px rgba(67, 20, 7, 0.7);
+        animation: status-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+    }
+
+    .status-receipt::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        z-index: 1;
+        height: 6px;
+        background: linear-gradient(90deg, #ea580c, #facc15, #f97316, #ea580c);
+        background-size: 200% 100%;
+        animation: status-shimmer 4s linear infinite;
+    }
+
+    .status-receipt.is-voted::before {
+        background: linear-gradient(90deg, #16a34a, #4ade80, #16a34a);
+        background-size: 200% 100%;
+    }
+
+    .status-receipt-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 2.25rem 2rem;
+        text-align: center;
+    }
+
+    .status-receipt-stub {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.5rem 1rem;
+        border-left: 2px dashed #fed7aa;
+        background: linear-gradient(180deg, #fffaf5 0%, #fff7ed 100%);
+    }
+
+    .status-orb {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 5.25rem;
+        height: 5.25rem;
+        border-radius: 9999px;
+        color: #fff;
+        background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        box-shadow: 0 16px 28px -16px rgba(234, 88, 12, 0.9);
+    }
+
+    .status-orb svg {
+        position: relative;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .status-orb-ring {
+        position: absolute;
+        inset: -0.5rem;
+        border: 2px solid rgba(234, 88, 12, 0.3);
+        border-radius: 9999px;
+        animation: status-pulse 2.6s ease-out infinite;
+    }
+
+    .status-receipt.is-voted .status-orb {
+        background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+        box-shadow: 0 16px 28px -16px rgba(22, 163, 74, 0.9);
+    }
+
+    .status-receipt.is-voted .status-orb-ring {
+        border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .status-receipt.is-pending .status-orb svg {
+        animation: status-nudge 2s ease-in-out infinite;
+    }
+
+    .status-check-draw {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: status-draw 0.9s ease-out 0.5s forwards;
+    }
+
+    .status-kicker {
+        margin-top: 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #ea580c;
+    }
+
+    .status-receipt.is-voted .status-kicker {
+        color: #15803d;
+    }
+
+    .status-receipt-title {
+        max-width: 26rem;
+        text-wrap: balance;
+        font-size: 1.35rem;
+        font-weight: 800;
+        line-height: 1.3;
+        color: #1c1917;
+    }
+
+    .status-cta {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        border-radius: 9999px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        background: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #c2410c 100%);
+        box-shadow: 0 14px 26px -14px rgba(194, 65, 12, 0.9);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .status-cta:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 30px -14px rgba(194, 65, 12, 1);
+    }
+
+    .status-cta svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        transition: transform 180ms ease;
+    }
+
+    .status-cta:hover svg {
+        transform: translateX(3px);
+    }
+
+    .status-stamp {
+        white-space: nowrap;
+        border: 3px solid #16a34a;
+        border-radius: 0.5rem;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #15803d;
+        background: rgba(240, 253, 244, 0.75);
+        transform: rotate(-10deg);
+        animation: status-stamp 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.9s both;
+    }
+
+    .status-receipt.is-pending .status-stamp {
+        border-color: #ea580c;
+        color: #c2410c;
+        background: rgba(255, 247, 237, 0.85);
+    }
+
+    .status-barcode {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        height: 3rem;
+    }
+
+    .status-barcode i {
+        display: block;
+        width: 4px;
+        border-radius: 1px;
+        background: #44403c;
+    }
+
+    .status-barcode i:nth-child(1) { height: 100%; }
+    .status-barcode i:nth-child(2) { height: 55%; }
+    .status-barcode i:nth-child(3) { height: 80%; }
+    .status-barcode i:nth-child(4) { height: 100%; }
+    .status-barcode i:nth-child(5) { height: 45%; }
+    .status-barcode i:nth-child(6) { height: 90%; }
+    .status-barcode i:nth-child(7) { height: 60%; }
+    .status-barcode i:nth-child(8) { height: 100%; }
+    .status-barcode i:nth-child(9) { height: 70%; }
+
+    @media (max-width: 640px) {
+        .status-receipt {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .status-receipt-main {
+            padding: 1.75rem 1.25rem;
+        }
+
+        .status-receipt-stub {
+            flex-direction: row;
+            border-left: 0;
+            border-top: 2px dashed #fed7aa;
+            padding: 1.25rem;
+        }
+
+        .status-receipt-title {
+            font-size: 1.15rem;
+        }
+    }
+
+    @keyframes status-rise {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes status-float {
+        0%, 100% {
+            transform: translateY(0) rotate(var(--tilt, 0deg));
+        }
+
+        50% {
+            transform: translateY(-12px) rotate(calc(var(--tilt, 0deg) + 5deg));
+        }
+    }
+
+    @keyframes status-pulse {
+        0% {
+            transform: scale(0.92);
+            opacity: 0.9;
+        }
+
+        100% {
+            transform: scale(1.12);
+            opacity: 0;
+        }
+    }
+
+    @keyframes status-ping {
+        0% {
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
+        }
+
+        70%, 100% {
+            box-shadow: 0 0 0 7px rgba(74, 222, 128, 0);
+        }
+    }
+
+    @keyframes status-glow {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.45);
+        }
+
+        50% {
+            box-shadow: 0 0 0 9px rgba(249, 115, 22, 0);
+        }
+    }
+
+    @keyframes status-fill {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: var(--progress, 0%);
+        }
+    }
+
+    @keyframes status-shimmer {
+        to {
+            background-position: 200% 0;
+        }
+    }
+
+    @keyframes status-draw {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes status-nudge {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    @keyframes status-stamp {
+        from {
+            opacity: 0;
+            transform: rotate(-10deg) scale(1.6);
+        }
+
+        to {
+            opacity: 1;
+            transform: rotate(-10deg) scale(1);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .status-page *,
+        .status-page *::before,
+        .status-page *::after {
+            animation: none !important;
+        }
+
+        .status-steps::after {
+            width: var(--progress, 0%);
+        }
+
+        .status-check-draw {
+            stroke-dashoffset: 0;
+        }
+
+        .status-stamp {
+            opacity: 1;
+            transform: rotate(-10deg);
+        }
+    }
+
+    /* Vote page notice: replaces the ballot when voting is closed or no election is active. */
+    .vote-notice {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        max-width: 40rem;
+        margin: 2rem auto 0;
+        border: 1px solid #fde7d3;
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        background: #fff;
+        box-shadow: 0 24px 40px -34px rgba(67, 20, 7, 0.6);
+        animation: vote-notice-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .vote-notice-icon {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        color: #c2410c;
+        background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+    }
+
+    .vote-notice-icon svg {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
+    .vote-notice-text {
+        font-size: 0.95rem;
+        font-weight: 600;
+        line-height: 1.5;
+        color: #1c1917;
+    }
+
+    @keyframes vote-notice-rise {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .vote-notice {
+            animation: none;
+        }
+    }
