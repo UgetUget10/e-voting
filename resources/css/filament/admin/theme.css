@@ -3293,3 +3293,55 @@ a.admin-activity-admin:hover .admin-activity-admin-name {
         animation-delay: calc(var(--stagger, 0) * 60ms);
     }
 }
+
+    /* Results page: field winners fill the row, the field picker matches the other admin controls, and the cards use the admin palette. */
+    .admin-results .admin-leaders {
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    }
+
+    .admin-results .admin-leader {
+        border: 1px solid var(--admin-line);
+        border-left: 3px solid var(--admin-accent);
+        background: var(--admin-surface);
+        transition: border-color 150ms ease;
+    }
+
+    .admin-results .admin-leader:hover {
+        border-color: var(--admin-accent);
+    }
+
+    .admin-results .admin-leader-field,
+    .admin-results .admin-leader-meta {
+        color: var(--admin-muted);
+    }
+
+    .admin-results .admin-leader-name {
+        color: var(--admin-ink);
+    }
+
+    .admin-results .admin-field-filter {
+        color: var(--admin-muted);
+        font-weight: 500;
+    }
+
+    .admin-results .admin-field-select {
+        min-height: 2.25rem;
+        appearance: none;
+        border: 1px solid var(--admin-line);
+        border-radius: 0.5rem;
+        padding: 0.4rem 2.25rem 0.4rem 0.75rem;
+        background: var(--admin-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236b6560' stroke-width='1.8'%3E%3Cpath d='M6 8l4 4 4-4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 0.75rem center / 0.9rem;
+        font-weight: 500;
+        color: var(--admin-ink);
+        cursor: pointer;
+        transition: border-color 150ms ease;
+    }
+
+    .admin-results .admin-field-select:hover {
+        border-color: var(--admin-muted);
+    }
+
+    .admin-results .admin-field-select:focus-visible {
+        outline: 2px solid var(--admin-accent);
+        outline-offset: 1px;
+    }
