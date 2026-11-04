@@ -295,9 +295,20 @@
         box-shadow: inset 2px 0 0 var(--admin-accent);
     }
 
+    /* Empty states: a faint ballot-dot grid behind the message, and the icon sits on a warm tile. */
     .fi-ta-empty-state-content {
-        background: transparent;
-        background-image: none;
+        background: radial-gradient(rgba(234, 88, 12, 0.1) 1px, transparent 1px) 0 0 / 16px 16px;
+        border-radius: 1rem;
+    }
+
+    .fi-ta-empty-state-icon-bg {
+        background: var(--admin-hover);
+        box-shadow: inset 0 0 0 1px var(--admin-line);
+    }
+
+    /* Device list in the account security section: warm row rules instead of Tailwind's cool grey. */
+    .fi-section .divide-y > :not(:last-child) {
+        border-color: var(--admin-row-line);
     }
 
     /* Controls: ember primary actions with a warm glow, and the active page number in the same ember. */
