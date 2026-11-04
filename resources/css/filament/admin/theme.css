@@ -3293,3 +3293,16 @@ a.admin-activity-admin:hover .admin-activity-admin-name {
         animation-delay: calc(var(--stagger, 0) * 60ms);
     }
 }
+
+    /* Ballots list: picks sit one per line and wrap inside their cell, so a long field and candidate name never pushes the table past the page edge. */
+    .fi-ta-cell.admin-ballot-picks {
+        min-width: 16rem;
+        max-width: 22rem;
+        white-space: normal;
+    }
+
+    .admin-ballot-picks .fi-ta-text-item {
+        overflow-wrap: anywhere;
+        font-size: 0.8125rem;
+        line-height: 1.35;
+    }

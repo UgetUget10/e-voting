@@ -78,10 +78,11 @@ class BallotsTable
                 TextColumn::make('votes')
                     ->label('Pilihan')
                     ->getStateUsing(fn (Ballot $record): array => self::picksFor($record))
-                    ->badge()
+                    ->listWithLineBreaks()
                     ->color('gray')
                     ->limitList(2)
                     ->expandableLimitedList()
+                    ->extraCellAttributes(['class' => 'admin-ballot-picks'])
                     ->placeholder('Tanpa pilihan')
                     ->toggleable(),
                 TextColumn::make('notes_count')
@@ -571,7 +572,8 @@ class BallotsTable
             TextColumn::make('user.email')
                 ->label('Email')
                 ->color('gray')
-                ->searchable(),
+                ->searchable()
+                ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
 
