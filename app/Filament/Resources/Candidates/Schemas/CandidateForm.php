@@ -21,6 +21,7 @@ class CandidateForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->disabled(fn (): bool => Election::isCurrentLocked())
             ->components([
                 Grid::make(['default' => 1, 'xl' => 3])
