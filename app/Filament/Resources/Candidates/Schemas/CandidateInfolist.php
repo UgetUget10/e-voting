@@ -17,6 +17,7 @@ class CandidateInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Grid::make(['default' => 1, 'xl' => 3])
                     ->schema([
