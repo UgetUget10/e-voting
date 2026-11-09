@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\ElectionDashboard;
 use App\Filament\Widgets\LatestBallots;
 use App\Filament\Widgets\VotingStats;
+use App\Http\Responses\VoterLoginResponse;
 use App\Models\Election;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Auth\MultiFactor\Email\EmailAuthentication;
@@ -44,6 +45,10 @@ class AdminPanelProvider extends PanelProvider
             ->userMenu(false)
             ->renderHook(PanelsRenderHook::TOPBAR_END, fn () => view('filament.partials.admin-account-bar'))
             ->renderHook(PanelsRenderHook::PAGE_START, fn () => view('filament.theme.page-ornament'))
+            ->renderHook(PanelsRenderHook::BODY_START, fn () => view('filament.voter.partials.login-success', [
+                'success' => session()->pull(VoterLoginResponse::SUCCESS_SESSION_KEY),
+            ]))
+            ->renderHook(PanelsRenderHook::BODY_START, fn () => view('filament.voter.partials.logout-farewell'))
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, fn () => view('filament.voter.partials.login-intro', [
                 'election' => Election::current(),
                 'title' => 'Panel Pengelola',

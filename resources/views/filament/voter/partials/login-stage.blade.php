@@ -28,3 +28,43 @@
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.6 6.2 1.8 10.4 12 12-10.2 1.6-11.4 5.8-12 12-.6-6.2-1.8-10.4-12-12C10.2 10.4 11.4 6.2 12 0Z"/></svg>
     </span>
 </div>
+<script>
+    (function () {
+        // While the credentials are checked, the card shows that it is busy. A failed check clears it again.
+        // A redirect keeps it on, because the next page plays the welcome animation.
+        const setAuthenticating = (form, busy) => {
+            const card = form.closest('.fi-simple-main');
+
+            if (!card) {
+                return;
+            }
+
+            card.classList.toggle('is-authenticating', busy);
+            form.setAttribute('aria-busy', busy ? 'true' : 'false');
+        };
+
+        document.addEventListener('submit', (event) => {
+            if (event.target instanceof HTMLFormElement) {
+                setAuthenticating(event.target, true);
+            }
+        }, true);
+
+        document.addEventListener('livewire:init', () => {
+            window.Livewire.hook('commit', ({ succeed, fail }) => {
+                const form = document.querySelector('.fi-simple-main form');
+
+                succeed(({ effects }) => {
+                    if (form && !effects?.redirect) {
+                        setAuthenticating(form, false);
+                    }
+                });
+
+                fail(() => {
+                    if (form) {
+                        setAuthenticating(form, false);
+                    }
+                });
+            });
+        });
+    })();
+</script>

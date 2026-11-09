@@ -7,6 +7,7 @@ use App\Filament\Voter\Pages\CheckReceipt;
 use App\Filament\Voter\Pages\Results;
 use App\Filament\Voter\Pages\Vote;
 use App\Http\Middleware\RequireStatusPage;
+use App\Http\Responses\VoterLoginResponse;
 use App\Models\Election;
 use App\Models\Setting;
 use Filament\Http\Middleware\Authenticate;
@@ -40,6 +41,10 @@ class VoterPanelProvider extends PanelProvider
             ->userMenu(false)
             ->renderHook(PanelsRenderHook::TOPBAR_END, fn () => view('filament.voter.partials.account-bar'))
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => view('filament.voter.partials.styles'))
+            ->renderHook(PanelsRenderHook::BODY_START, fn () => view('filament.voter.partials.login-success', [
+                'success' => session()->pull(VoterLoginResponse::SUCCESS_SESSION_KEY),
+            ]))
+            ->renderHook(PanelsRenderHook::BODY_START, fn () => view('filament.voter.partials.logout-farewell'))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => auth()->user()?->is_admin === false && Vote::hasVoted()
                 ? view('filament.voter.partials.back-guard', ['statusUrl' => CheckReceipt::getUrl(panel: 'pemilih')])
                 : '')

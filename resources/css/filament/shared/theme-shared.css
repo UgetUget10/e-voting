@@ -394,7 +394,7 @@
     /* Inputs: softer corners and a warm halo on focus instead of the default hard ring. */
     .fi-simple-main .fi-input-wrp {
         border-radius: 0.875rem;
-        transition: box-shadow 200ms ease;
+        transition: box-shadow 200ms ease, opacity 250ms ease;
     }
 
     .fi-simple-main .fi-input-wrp:focus-within {
@@ -442,6 +442,472 @@
         .voter-login-logo {
             width: 4.25rem;
             height: 4.25rem;
+        }
+    }
+
+    /* While the credentials are checked: the card rings in ember, the emblem turns faster, the fields dim, and the submit button keeps sweeping. */
+    .fi-simple-main {
+        transition: box-shadow 300ms ease;
+    }
+
+    .fi-simple-main.is-authenticating {
+        box-shadow: 0 40px 80px -30px rgba(28, 8, 2, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.18), 0 0 0 6px rgba(251, 146, 60, 0.35);
+    }
+
+    .fi-simple-main.is-authenticating .voter-login-seal {
+        animation-duration: 3s;
+    }
+
+    .fi-simple-main.is-authenticating .voter-login-ring {
+        animation-duration: 1.2s;
+    }
+
+    .fi-simple-main.is-authenticating .voter-login-box-paper,
+    .fi-simple-main.is-authenticating .voter-login-box-check {
+        animation-duration: 1.2s;
+    }
+
+    .fi-simple-main.is-authenticating .fi-input-wrp {
+        opacity: 0.55;
+    }
+
+    .fi-simple-main.is-authenticating form {
+        pointer-events: none;
+    }
+
+    .fi-simple-layout .fi-simple-main.is-authenticating .fi-btn.fi-color-primary[type='submit']::after {
+        animation: voter-login-sweep-loop 1.1s ease-in-out infinite;
+    }
+
+    /* Login success: a cream sheet where the seal is stamped, the tick is drawn, sparks fly out and the welcome rises. It fades on its own after a few seconds and never blocks the page. */
+    .login-success {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        pointer-events: none;
+        text-align: center;
+        background: radial-gradient(circle at center, rgba(255, 237, 213, 0.97) 0%, rgba(255, 250, 245, 0.98) 65%);
+        animation: login-success-leave 0.6s ease 2.4s both;
+    }
+
+    .login-success-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        max-width: 22rem;
+        animation: login-success-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+    }
+
+    .login-success-badge {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 5.5rem;
+        height: 5.5rem;
+        margin-bottom: 0.75rem;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #c2410c 100%);
+        box-shadow: 0 24px 40px -18px rgba(194, 65, 12, 0.85), 0 0 0 10px rgba(251, 146, 60, 0.16);
+    }
+
+    .login-success-badge > svg {
+        position: relative;
+        width: 2.75rem;
+        height: 2.75rem;
+        overflow: visible;
+    }
+
+    .login-success-check {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 4.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: login-success-draw 0.5s ease-out 0.45s forwards;
+    }
+
+    .login-success-ripple {
+        position: absolute;
+        inset: 0;
+        border: 2px solid rgba(234, 88, 12, 0.6);
+        border-radius: inherit;
+        animation: login-success-ripple 1.1s ease-out 0.3s both;
+    }
+
+    .login-success-sparks {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 0;
+        height: 0;
+    }
+
+    .login-success-sparks > span {
+        position: absolute;
+        left: -0.25rem;
+        top: -0.25rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: #facc15;
+        animation: login-success-spark 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s both;
+    }
+
+    .login-success-sparks > span:nth-child(odd) {
+        background: #fb923c;
+    }
+
+    .login-success-eyebrow {
+        margin: 0;
+        color: #c2410c;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        animation: login-success-rise 0.5s ease 0.5s both;
+    }
+
+    .login-success-title {
+        margin: 0;
+        color: #1c1917;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+        animation: login-success-rise 0.5s ease 0.6s both;
+    }
+
+    .login-success-text {
+        margin: 0;
+        color: #78716c;
+        font-size: 0.925rem;
+        line-height: 1.55;
+        animation: login-success-rise 0.5s ease 0.7s both;
+    }
+
+    .login-success-bar {
+        display: block;
+        width: 10rem;
+        height: 0.3rem;
+        margin-top: 0.75rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        background: #ffedd5;
+    }
+
+    .login-success-bar > span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #fb923c, #ea580c);
+        animation: login-success-progress 2.2s linear 0.3s both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .login-success {
+            animation: login-success-leave 0.3s ease 1.6s both;
+        }
+
+        .login-success-ripple,
+        .login-success-sparks {
+            display: none;
+        }
+
+        .login-success-card,
+        .login-success-eyebrow,
+        .login-success-title,
+        .login-success-text,
+        .login-success-bar > span {
+            animation: none;
+        }
+
+        .login-success-check {
+            stroke-dashoffset: 0;
+            animation: none;
+        }
+    }
+
+    /* Logout: the moment a sign-out is sent, a cream sheet shows that the session is closing. It stays until the browser
+       leaves the page, so each sign-out plays exactly one farewell. */
+    .logout-farewell {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        text-align: center;
+        background: radial-gradient(circle at center, rgba(255, 237, 213, 0.97) 0%, rgba(255, 250, 245, 0.98) 65%);
+    }
+
+    .logout-farewell[data-state='leaving'] {
+        display: flex;
+    }
+
+    .logout-farewell-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        max-width: 22rem;
+        animation: logout-farewell-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .logout-farewell-badge {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 5rem;
+        height: 5rem;
+        margin-bottom: 0.75rem;
+        border-radius: 9999px;
+        color: #fff;
+        background: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #c2410c 100%);
+        box-shadow: 0 24px 40px -18px rgba(194, 65, 12, 0.85), 0 0 0 10px rgba(251, 146, 60, 0.16);
+    }
+
+    .logout-farewell-badge > svg {
+        width: 2.4rem;
+        height: 2.4rem;
+    }
+
+    /* A ring breathes behind the door while the sign-out is on its way. */
+    .logout-farewell-ripple {
+        position: absolute;
+        inset: 0;
+        border: 2px solid rgba(234, 88, 12, 0.6);
+        border-radius: inherit;
+        pointer-events: none;
+        animation: logout-farewell-ripple 1.6s ease-out infinite;
+    }
+
+    /* The arrow keeps slipping out through the door. */
+    .logout-farewell-arrow {
+        transform-box: view-box;
+        animation: logout-farewell-exit 1.1s ease-in-out infinite;
+    }
+
+    .logout-farewell-eyebrow {
+        margin: 0;
+        color: #c2410c;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        animation: logout-farewell-rise 0.5s ease 0.25s both;
+    }
+
+    .logout-farewell-title {
+        margin: 0;
+        color: #1c1917;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+        animation: logout-farewell-rise 0.5s ease 0.35s both;
+    }
+
+    .logout-farewell-text {
+        margin: 0;
+        color: #78716c;
+        font-size: 0.925rem;
+        line-height: 1.55;
+        animation: logout-farewell-rise 0.5s ease 0.45s both;
+    }
+
+    .logout-farewell-bar {
+        display: block;
+        width: 10rem;
+        height: 0.3rem;
+        margin-top: 0.75rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        background: #ffedd5;
+    }
+
+    /* The bar fills over the same second that passes before the sign-out is sent. */
+    .logout-farewell-bar > span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #fb923c, #ea580c);
+        animation: logout-farewell-progress 1s linear 0.1s both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .logout-farewell-ripple {
+            display: none;
+        }
+
+        .logout-farewell-card,
+        .logout-farewell-arrow,
+        .logout-farewell-eyebrow,
+        .logout-farewell-title,
+        .logout-farewell-text,
+        .logout-farewell-bar > span {
+            animation: none;
+        }
+    }
+
+    @keyframes logout-farewell-pop {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes logout-farewell-exit {
+        0% {
+            opacity: 0.25;
+            transform: translateX(-4px);
+        }
+
+        55%, 100% {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+    }
+
+    @keyframes logout-farewell-ripple {
+        0% {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        25% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(1.55);
+        }
+    }
+
+    @keyframes logout-farewell-rise {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes logout-farewell-progress {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes voter-login-sweep-loop {
+        from {
+            transform: translateX(-100%);
+        }
+
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes login-success-leave {
+        0%, 85% {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        100% {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    @keyframes login-success-pop {
+        from {
+            opacity: 0;
+            transform: scale(0.85) translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes login-success-draw {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes login-success-ripple {
+        0% {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        25% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(1.55);
+        }
+    }
+
+    @keyframes login-success-spark {
+        from {
+            opacity: 1;
+            transform: rotate(var(--angle)) translateY(-2.5rem) scale(0.5);
+        }
+
+        to {
+            opacity: 0;
+            transform: rotate(var(--angle)) translateY(-5.5rem) scale(1);
+        }
+    }
+
+    @keyframes login-success-rise {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes login-success-progress {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
         }
     }
 
