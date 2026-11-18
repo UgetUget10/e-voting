@@ -2209,6 +2209,7 @@
         display: flex;
         flex-direction: column;
         gap: 1.25rem;
+        min-width: 0;
         max-width: 72rem;
         margin-inline: auto;
         padding: 1rem 1.25rem 3rem;
@@ -2962,8 +2963,28 @@
     }
 
     @media (max-width: 720px) {
+        /* Wide recap tables must scroll inside their own card, never stretch the grid ancestors of the page. */
+        .fi-main:has(.results-page),
+        .fi-page:has(.results-page),
+        .fi-page-main:has(.results-page),
+        .fi-page-content:has(.results-page) {
+            min-width: 0;
+            max-width: 100%;
+        }
+
         .results-page {
             padding-inline: 1rem;
+        }
+
+        .results-page > *,
+        .results-ballot,
+        .results-rank-body {
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        .results-rank-votes {
+            white-space: normal;
         }
 
         .results-hero {
